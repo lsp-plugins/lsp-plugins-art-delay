@@ -21,10 +21,10 @@
 # Package version
 ARTIFACT_ID                 = LSP_PLUGINS_ART_DELAY
 ARTIFACT_NAME               = lsp-plugins-art-delay
-ARTIFACT_DESC               = Trigger plugin series
+ARTIFACT_DESC               = Artistic Delay plugin series
 ARTIFACT_HEADERS            = lsp-plug.in
 ARTIFACT_EXPORT_ALL         = 1
-ARTIFACT_VERSION            = 1.0.5-devel
+ARTIFACT_VERSION            = 1.0.1-devel
 
 #------------------------------------------------------------------------------
 # List of all dependencies
