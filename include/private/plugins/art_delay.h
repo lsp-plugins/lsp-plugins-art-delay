@@ -208,7 +208,7 @@ namespace lsp
                 explicit art_delay(const meta::plugin_t *metadata, bool stereo_in);
                 virtual ~art_delay();
 
-                virtual void        init(plug::IWrapper *wrapper);
+                virtual void        init(plug::IWrapper *wrapper, plug::IPort **ports);
                 virtual void        destroy();
 
             public:
