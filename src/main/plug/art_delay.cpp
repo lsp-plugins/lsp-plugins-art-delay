@@ -598,7 +598,7 @@ namespace lsp
 
         size_t art_delay::decode_max_delay_value(size_t v)
         {
-            float seconds = (v < sizeof(art_delay_max)/sizeof(uint8_t)) ? art_delay_max[v] : 1.0f;
+            float seconds = (v < sizeof(art_delay_max)/sizeof(uint16_t)) ? art_delay_max[v] : 1.0f;
             return dspu::seconds_to_samples(fSampleRate, seconds);
         }
 
