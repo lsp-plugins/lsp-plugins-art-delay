@@ -18,13 +18,6 @@
 # along with lsp-plugins-art-delay.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-# Package version
-ARTIFACT_ID                 = LSP_PLUGINS_ART_DELAY
-ARTIFACT_NAME               = lsp-plugins-art-delay
-ARTIFACT_TYPE               = plug
-ARTIFACT_DESC               = LSP Artistic Delay Plugin Series
-ARTIFACT_HEADERS            = lsp-plug.in
-ARTIFACT_VERSION            = 1.0.1-devel
-
-
-
+# Variables that describe dependencies
+PLUGIN_DEPENDENCIES     = LSP_PLUGINS_ART_DELAY
+PLUGIN_PACKAGE_NAME     = lsp-plugins
