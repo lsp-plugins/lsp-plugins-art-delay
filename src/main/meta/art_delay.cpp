@@ -262,6 +262,15 @@ namespace lsp
 
         static const int art_delay_classes[] = { C_DELAY, -1 };
 
+        const meta::bundle_t art_delay_bundle =
+        {
+            "art_delay",
+            "Artistic Delay",
+            B_DELAYS,
+            "mEP1WyLFruY",
+            "This plugin allows to construct almost any desired delay using up to 16 delay lines and 8 tempo settings. Almost all parameters can be smootly automated."
+        };
+
         const meta::plugin_t  art_delay_mono =
         {
             "Künstlerische Verzögerung",
@@ -280,7 +289,8 @@ namespace lsp
             art_delay_mono_ports,
             "delay/art_delay/mono.xml",
             NULL,
-            mono_to_stereo_plugin_port_groups
+            mono_to_stereo_plugin_port_groups,
+            &art_delay_bundle
         };
 
         const meta::plugin_t  art_delay_stereo =
@@ -301,7 +311,8 @@ namespace lsp
             art_delay_stereo_ports,
             "delay/art_delay/stereo.xml",
             NULL,
-            stereo_plugin_port_groups
+            stereo_plugin_port_groups,
+            &art_delay_bundle
         };
     } // namespace meta
 } // namespace lsp
