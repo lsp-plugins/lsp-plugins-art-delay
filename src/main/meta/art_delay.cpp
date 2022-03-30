@@ -268,7 +268,7 @@ namespace lsp
             "Artistic Delay",
             B_DELAYS,
             "mEP1WyLFruY",
-            "This plugin allows to construct almost any desired delay using up to 16 delay lines and 8 tempo settings. Almost all parameters can be smootly automated."
+            "This plugin allows one to construct almost any desired delay using up to 16 delay lines and 8 tempo settings. Almost all parameters can be smootly automated."
         };
 
         const meta::plugin_t  art_delay_mono =
