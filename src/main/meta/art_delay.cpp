@@ -25,7 +25,7 @@
 
 #define LSP_PLUGINS_ART_DELAY_VERSION_MAJOR       1
 #define LSP_PLUGINS_ART_DELAY_VERSION_MINOR       0
-#define LSP_PLUGINS_ART_DELAY_VERSION_MICRO       1
+#define LSP_PLUGINS_ART_DELAY_VERSION_MICRO       2
 
 #define LSP_PLUGINS_ART_DELAY_VERSION  \
     LSP_MODULE_VERSION( \
@@ -268,7 +268,7 @@ namespace lsp
             "Artistic Delay",
             B_DELAYS,
             "mEP1WyLFruY",
-            "This plugin allows to construct almost any desired delay using up to 16 delay lines and 8 tempo settings. Almost all parameters can be smootly automated."
+            "This plugin allows one to construct almost any desired delay using up to 16 delay lines and 8 tempo settings. Almost all parameters can be smootly automated."
         };
 
         const meta::plugin_t  art_delay_mono =
