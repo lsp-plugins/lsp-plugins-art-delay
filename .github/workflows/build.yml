@@ -43,3 +43,22 @@ jobs:
         run: make VERBOSE=1
       - name: Install binaries
         run: make install
+  debian_stable:
+    runs-on: ubuntu-latest
+    container:
+      image: debian:stable
+    steps:
+      - name: Update repositories
+        run: apt-get update
+      - name: Install dependencies
+        run: apt-get -y install gcc g++ git make php-cli pkg-config valgrind libx11-dev libxrandr-dev libjack-dev libcairo2-dev libgl-dev libfreetype6-dev libsndfile1-dev lv2-dev ladspa-sdk
+      - uses: actions/checkout@v2
+      - name: Configure project
+        run: make config VERBOSE=1 FEATURES='doc jack ladspa lv2 vst2 xdg' PREFIX=/usr
+      - name: Download all dependencies
+        run: make fetch
+      - name: Build project
+        run: make VERBOSE=1
+      - name: Install binaries
+        run: make install
+
