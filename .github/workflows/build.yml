@@ -23,7 +23,7 @@ jobs:
         run: make fetch
       - name: Build project
         run: make VERBOSE=1
-      - name: Install lsp-plugins-art-delay
+      - name: Install binaries
         run: make install
       - name: Lint LV2 plugins
         run: for _plugin in $(jq -r '.plugins[].id' .build/target/lsp-plugin-fw/plugins.json); do lv2lint -Mpack "http://lsp-plug.in/plugins/lv2/$_plugin"; done
