@@ -19,7 +19,7 @@ jobs:
       - uses: actions/checkout@v2
       - name: Configure project
         run: make config VERBOSE=1 FEATURES='doc jack ladspa lv2 vst2 xdg' PREFIX=/usr
-      - name: Download all dependencies
+      - name: Fetch project dependencies
         run: make fetch
       - name: Build project
         run: make VERBOSE=1
@@ -37,7 +37,7 @@ jobs:
       - uses: actions/checkout@v2
       - name: Configure project
         run: make config VERBOSE=1 FEATURES='doc jack ladspa lv2 vst2 xdg' PREFIX=/usr
-      - name: Download all dependencies
+      - name: Fetch project dependencies
         run: make fetch
       - name: Build project
         run: make VERBOSE=1
@@ -55,7 +55,7 @@ jobs:
       - uses: actions/checkout@v2
       - name: Configure project
         run: make config VERBOSE=1 FEATURES='doc jack ladspa lv2 vst2 xdg' PREFIX=/usr
-      - name: Download all dependencies
+      - name: Fetch project dependencies
         run: make fetch
       - name: Build project
         run: make VERBOSE=1
