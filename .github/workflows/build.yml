@@ -13,7 +13,7 @@ env:
   CARLA_BRIDGE_TESTING: native
   # FIXME some system library is causing memory leaks, switch to --leak-check=full when fixed
   VALGRIND_ARGS: --error-exitcode=255 --leak-check=no --track-origins=yes --suppressions=.github/workflows/valgrind.supp
-  VALGRIND_DEBUG_ARGS: --error-exitcode=255 --leak-check=full --track-origins=yes --suppressions=.github/workflows/valgrind.supp
+  VALGRIND_DEBUG_ARGS: --error-exitcode=255 --leak-check=full --track-origins=yes --keep-debuginfo=yes --suppressions=.github/workflows/valgrind.supp
 
 jobs:
   arch_linux:
