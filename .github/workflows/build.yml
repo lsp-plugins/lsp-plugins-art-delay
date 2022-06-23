@@ -14,9 +14,9 @@ jobs:
     container:
       image: archlinux:latest
     steps:
-      - uses: actions/checkout@v2
       - name: Install dependencies
         run: pacman --noconfirm -Syu alsa-lib base-devel cairo carla git hicolor-icon-theme jack jq ladspa libglvnd libsndfile libx11 libxrandr lv2 lv2lint php valgrind
+      - uses: actions/checkout@v2
       - name: Configure project
         run: make config VERBOSE=1 FEATURES='doc jack ladspa lv2 vst2 xdg' PREFIX=/usr
       - name: Download all dependencies
@@ -27,3 +27,19 @@ jobs:
         run: make install
       - name: Lint LV2 plugins
         run: for _plugin in $(jq -r '.plugins[].id' .build/target/lsp-plugin-fw/plugins.json); do lv2lint -Mpack "http://lsp-plug.in/plugins/lv2/$_plugin"; done
+  opensuse_leap:
+    runs-on: ubuntu-latest
+    container:
+      image: opensuse/leap:latest
+    steps:
+      - name: Install dependencies
+        run: zypper --non-interactive --no-gpg-checks in tar gzip gcc gcc-c++ git make php valgrind libX11-devel libXrandr-devel libjack-devel cairo-devel freetype2-devel libsndfile-devel lv2-devel ladspa-devel
+      - uses: actions/checkout@v2
+      - name: Configure project
+        run: make config VERBOSE=1 FEATURES='doc jack ladspa lv2 vst2 xdg' PREFIX=/usr
+      - name: Download all dependencies
+        run: make fetch
+      - name: Build project
+        run: make VERBOSE=1
+      - name: Install binaries
+        run: make install
