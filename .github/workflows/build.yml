@@ -1,0 +1,29 @@
+---
+
+name: Build on various Operating Systems
+
+on:
+  push:
+    branches: [devel, master]
+  pull_request:
+    branches: [devel, master]
+
+jobs:
+  arch_linux:
+    runs-on: ubuntu-latest
+    container:
+      image: archlinux:latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install dependencies
+        run: pacman --noconfirm -Syu alsa-lib base-devel cairo carla git hicolor-icon-theme jack jq ladspa libglvnd libsndfile libx11 libxrandr lv2 lv2lint php valgrind
+      - name: Configure project
+        run: make config VERBOSE=1 FEATURES='doc jack ladspa lv2 vst2 xdg' PREFIX=/usr
+      - name: Download all dependencies
+        run: make fetch
+      - name: Build project
+        run: make VERBOSE=1
+      - name: Install lsp-plugins-art-delay
+        run: make install
+      - name: Lint LV2 plugins
+        run: for _plugin in $(jq -r '.plugins[].id' .build/target/lsp-plugin-fw/plugins.json); do lv2lint -Mpack "http://lsp-plug.in/plugins/lv2/$_plugin"; done
