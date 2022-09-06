@@ -172,23 +172,13 @@
 								<hsep pad.v="2" vreduce="true" bg.color="bg"/>
 							</cell>
 
-							<ui:with bg.bright="(:dry_on ine 0) ? 1.0 : :const_bg_darken" bright="(:dry_on ine 0) ? 1.0 : 0.75">
-								<hbox fill="false" spacing="4" pad.v="6">
-									<button id="dry_on" size="10" ui:inject="Button_yellow"/>
-									<label text="labels.signal.dry"/>
-								</hbox>
-							</ui:with>
+							<button id="dry_on" pad.v="6" width.min="34" fill="false" height="10" text="labels.signal.dry" ui:inject="Button_yellow_6" bg.bright="(:dry_on ine 0) ? 1.0 : :const_bg_darken" bright="(:dry_on ine 0) ? 1.0 : 0.75"/>
 
 							<cell rows="3">
 								<vsep pad.h="2" hreduce="true" bg.color="bg"/>
 							</cell>
 
-							<ui:with bg.bright="(:wet_on ine 0) ? 1.0 : :const_bg_darken" bright="(:wet_on ine 0) ? 1.0 : 0.75">
-								<hbox fill="false" spacing="4" pad.v="6">
-									<button id="wet_on" size="10" ui:inject="Button_blue"/>
-									<label text="labels.signal.wet"/>
-								</hbox>
-							</ui:with>
+							<button id="wet_on" pad.v="6" width.min="34" fill="false" height="10" text="labels.signal.wet" ui:inject="Button_blue_6" bg.bright="(:wet_on ine 0) ? 1.0 : :const_bg_darken" bright="(:wet_on ine 0) ? 1.0 : 0.75"/>
 
 							<knob id="dry" pad.h="6" scolor="(:dry_on ine 0) ? 'dry' : 'dry_inactive'" bg.bright="(:dry_on ine 0) ? 1.0 : :const_bg_darken"/>
 							<knob id="wet" pad.h="6" scolor="(:wet_on ine 0) ? 'wet' : 'wet_inactive'" bg.bright="(:wet_on ine 0) ? 1.0 : :const_bg_darken"/>
