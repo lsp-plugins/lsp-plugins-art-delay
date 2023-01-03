@@ -24,6 +24,7 @@ ARTIFACT_NAME               = lsp-plugins-art-delay
 ARTIFACT_TYPE               = plug
 ARTIFACT_DESC               = LSP Artistic Delay Plugin Series
 ARTIFACT_HEADERS            = lsp-plug.in
+ARTIFACT_EXPORT_HEADERS     = 0
 ARTIFACT_VERSION            = 1.0.7-devel
 
 
