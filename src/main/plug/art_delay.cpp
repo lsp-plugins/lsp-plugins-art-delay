@@ -22,6 +22,7 @@
 #include <private/plugins/art_delay.h>
 #include <lsp-plug.in/common/atomic.h>
 #include <lsp-plug.in/common/alloc.h>
+#include <lsp-plug.in/common/debug.h>
 #include <lsp-plug.in/dsp/dsp.h>
 #include <lsp-plug.in/dsp-units/units.h>
 
