@@ -1,6 +1,6 @@
 /*
- * Copyright (C) 2021 Linux Studio Plugins Project <https://lsp-plug.in/>
- *           (C) 2021 Vladimir Sadovnikov <sadko4u@gmail.com>
+ * Copyright (C) 2023 Linux Studio Plugins Project <https://lsp-plug.in/>
+ *           (C) 2023 Vladimir Sadovnikov <sadko4u@gmail.com>
  *
  * This file is part of lsp-plugins-art-delay
  * Created on: 3 авг. 2021 г.
@@ -198,7 +198,9 @@ namespace lsp
                 bool                        check_delay_ref(art_delay_t *ad);
                 void                        sync_delay(art_delay_t *ad);
                 void                        process_delay(art_delay_t *ad, float **out, const float * const *in, size_t samples, size_t i, size_t count);
+                void                        do_destroy();
 
+            protected:
                 static void                 dump_pan(dspu::IStateDumper *v, const char *name, const pan_t *pan, size_t n);
                 static void                 dump_art_settings(dspu::IStateDumper *v, const char *name, const art_settings_t *as);
                 static void                 dump_art_delay(dspu::IStateDumper *v, const art_delay_t *ad);
@@ -206,21 +208,19 @@ namespace lsp
 
             public:
                 explicit art_delay(const meta::plugin_t *metadata, bool stereo_in);
-                virtual ~art_delay();
+                virtual ~art_delay() override;
 
-                virtual void        init(plug::IWrapper *wrapper, plug::IPort **ports);
-                virtual void        destroy();
+                virtual void        init(plug::IWrapper *wrapper, plug::IPort **ports) override;
+                virtual void        destroy() override;
 
             public:
-                virtual bool        set_position(const plug::position_t *pos);
-                virtual void        update_settings();
-                virtual void        update_sample_rate(long sr);
-
-                virtual void        process(size_t samples);
-
-                virtual void        dump(dspu::IStateDumper *v) const;
+                virtual bool        set_position(const plug::position_t *pos) override;
+                virtual void        update_settings() override;
+                virtual void        update_sample_rate(long sr) override;
+                virtual void        process(size_t samples) override;
+                virtual void        dump(dspu::IStateDumper *v) const override;
         };
-    } // namespace plugins
-} // namespace lsp
+    } /* namespace plugins */
+} /* namespace lsp */
 
 #endif /* PRIVATE_PLUGINS_ART_DELAY_H_ */
