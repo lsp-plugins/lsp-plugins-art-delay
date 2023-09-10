@@ -1,6 +1,6 @@
 /*
- * Copyright (C) 2021 Linux Studio Plugins Project <https://lsp-plug.in/>
- *           (C) 2021 Vladimir Sadovnikov <sadko4u@gmail.com>
+ * Copyright (C) 2023 Linux Studio Plugins Project <https://lsp-plug.in/>
+ *           (C) 2023 Vladimir Sadovnikov <sadko4u@gmail.com>
  *
  * This file is part of lsp-plugins-art-delay
  * Created on: 3 авг. 2021 г.
@@ -28,12 +28,17 @@
 
 #define BUFFER_SIZE             0x1000U
 #define DELAY_REF_NONE          -1
-#define TRACE_PORT(p)           lsp_trace("  port id=%s", (p)->metadata()->id);
 
 namespace lsp
 {
     namespace plugins
     {
+        static plug::IPort *TRACE_PORT(plug::IPort *p)
+        {
+            lsp_trace("  port id=%s", (p)->metadata()->id);
+            return p;
+        }
+
         static const float art_delay_ratio[] =
         {
             1.0f / 1.0f,
@@ -197,7 +202,7 @@ namespace lsp
 
         art_delay::~art_delay()
         {
-            destroy();
+            do_destroy();
         }
 
         void art_delay::init(plug::IWrapper *wrapper, plug::IPort **ports)
@@ -362,68 +367,43 @@ namespace lsp
             // Bind in/out ports
             lsp_trace("Binding audio ports");
 
-            TRACE_PORT(ports[port_id]);
-            pIn[0]          = ports[port_id++];
+            pIn[0]          = TRACE_PORT(ports[port_id++]);
             if (bStereoIn)
-            {
-                TRACE_PORT(ports[port_id]);
-                pIn[1]          = ports[port_id++];
-            }
+                pIn[1]          = TRACE_PORT(ports[port_id++]);
 
-            TRACE_PORT(ports[port_id]);
-            pOut[0]         = ports[port_id++];
-            TRACE_PORT(ports[port_id]);
-            pOut[1]         = ports[port_id++];
+            pOut[0]         = TRACE_PORT(ports[port_id++]);
+            pOut[1]         = TRACE_PORT(ports[port_id++]);
 
             // Bind common ports
             lsp_trace("Binding common ports");
-            TRACE_PORT(ports[port_id]);
-            pBypass         = ports[port_id++];
-            TRACE_PORT(ports[port_id]);
-            port_id++; // Skip delay line selector
-            TRACE_PORT(ports[port_id]);
-            pMaxDelay       = ports[port_id++];
-            TRACE_PORT(ports[port_id]);
-            pPan[0]         = ports[port_id++];
+            pBypass         = TRACE_PORT(ports[port_id++]);
+            TRACE_PORT(ports[port_id++]); // Skip delay line selector
+            pMaxDelay       = TRACE_PORT(ports[port_id++]);
+
+            pPan[0]         = TRACE_PORT(ports[port_id++]);
             if (bStereoIn)
-            {
-                TRACE_PORT(ports[port_id]);
-                pPan[1]         = ports[port_id++];
-            }
-            TRACE_PORT(ports[port_id]);
-            pDryGain        = ports[port_id++];
-            TRACE_PORT(ports[port_id]);
-            pWetGain        = ports[port_id++];
-            TRACE_PORT(ports[port_id]);
-            pDryOn          = ports[port_id++];
-            TRACE_PORT(ports[port_id]);
-            pWetOn          = ports[port_id++];
-            TRACE_PORT(ports[port_id]);
-            pMono           = ports[port_id++];
-            TRACE_PORT(ports[port_id]);
-            pFeedback       = ports[port_id++];
-            TRACE_PORT(ports[port_id]);
-            pFeedGain       = ports[port_id++];
-            TRACE_PORT(ports[port_id]);
-            pOutGain        = ports[port_id++];
-            TRACE_PORT(ports[port_id]);
-            pOutDMax        = ports[port_id++];
-            TRACE_PORT(ports[port_id]);
-            pOutMemUse      = ports[port_id++];
+                pPan[1]         = TRACE_PORT(ports[port_id++]);
+
+            pDryGain        = TRACE_PORT(ports[port_id++]);
+            pWetGain        = TRACE_PORT(ports[port_id++]);
+            pDryOn          = TRACE_PORT(ports[port_id++]);
+            pWetOn          = TRACE_PORT(ports[port_id++]);
+            pMono           = TRACE_PORT(ports[port_id++]);
+            pFeedback       = TRACE_PORT(ports[port_id++]);
+            pFeedGain       = TRACE_PORT(ports[port_id++]);
+            pOutGain        = TRACE_PORT(ports[port_id++]);
+            pOutDMax        = TRACE_PORT(ports[port_id++]);
+            pOutMemUse      = TRACE_PORT(ports[port_id++]);
 
             // Bind delay ports
             lsp_trace("Binding tempo ports");
             for (size_t i=0; i<meta::art_delay_metadata::MAX_TEMPOS; ++i)
             {
                 art_tempo_t *at         = &vTempo[i];
-                TRACE_PORT(ports[port_id]);
-                at->pTempo              = ports[port_id++];
-                TRACE_PORT(ports[port_id]);
-                at->pRatio              = ports[port_id++];
-                TRACE_PORT(ports[port_id]);
-                at->pSync               = ports[port_id++];
-                TRACE_PORT(ports[port_id]);
-                at->pOutTempo           = ports[port_id++];
+                at->pTempo              = TRACE_PORT(ports[port_id++]);
+                at->pRatio              = TRACE_PORT(ports[port_id++]);
+                at->pSync               = TRACE_PORT(ports[port_id++]);
+                at->pOutTempo           = TRACE_PORT(ports[port_id++]);
             }
 
             // Bind delay ports
@@ -432,100 +412,63 @@ namespace lsp
             {
                 art_delay_t *ad         = &vDelays[i];
 
-                TRACE_PORT(ports[port_id]);
-                ad->pOn                 = ports[port_id++];
-                TRACE_PORT(ports[port_id]);
-                ad->pSolo               = ports[port_id++];
-                TRACE_PORT(ports[port_id]);
-                ad->pMute               = ports[port_id++];
-                TRACE_PORT(ports[port_id]);
-                ad->pDelayRef           = ports[port_id++];
-                TRACE_PORT(ports[port_id]);
-                ad->pDelayMul           = ports[port_id++];
-                TRACE_PORT(ports[port_id]);
-                ad->pTempoRef           = ports[port_id++];
-                TRACE_PORT(ports[port_id]);
-                ad->pBarFrac            = ports[port_id++];
-                TRACE_PORT(ports[port_id]);
-                ad->pBarDenom           = ports[port_id++];
-                TRACE_PORT(ports[port_id]);
-                ad->pBarMul             = ports[port_id++];
-                TRACE_PORT(ports[port_id]);
-                ad->pFrac               = ports[port_id++];
-                TRACE_PORT(ports[port_id]);
-                ad->pDenom              = ports[port_id++];
-                TRACE_PORT(ports[port_id]);
-                ad->pDelay              = ports[port_id++];
-                TRACE_PORT(ports[port_id]);
-                ad->pEqOn               = ports[port_id++];
-                TRACE_PORT(ports[port_id]);
-                ad->pLcfOn              = ports[port_id++];
-                TRACE_PORT(ports[port_id]);
-                ad->pLcfFreq            = ports[port_id++];
-                TRACE_PORT(ports[port_id]);
-                ad->pHcfOn              = ports[port_id++];
-                TRACE_PORT(ports[port_id]);
-                ad->pHcfFreq            = ports[port_id++];
+                ad->pOn                 = TRACE_PORT(ports[port_id++]);
+                ad->pSolo               = TRACE_PORT(ports[port_id++]);
+                ad->pMute               = TRACE_PORT(ports[port_id++]);
+                ad->pDelayRef           = TRACE_PORT(ports[port_id++]);
+                ad->pDelayMul           = TRACE_PORT(ports[port_id++]);
+                ad->pTempoRef           = TRACE_PORT(ports[port_id++]);
+                ad->pBarFrac            = TRACE_PORT(ports[port_id++]);
+                ad->pBarDenom           = TRACE_PORT(ports[port_id++]);
+                ad->pBarMul             = TRACE_PORT(ports[port_id++]);
+                ad->pFrac               = TRACE_PORT(ports[port_id++]);
+                ad->pDenom              = TRACE_PORT(ports[port_id++]);
+                ad->pDelay              = TRACE_PORT(ports[port_id++]);
+                ad->pEqOn               = TRACE_PORT(ports[port_id++]);
+                ad->pLcfOn              = TRACE_PORT(ports[port_id++]);
+                ad->pLcfFreq            = TRACE_PORT(ports[port_id++]);
+                ad->pHcfOn              = TRACE_PORT(ports[port_id++]);
+                ad->pHcfFreq            = TRACE_PORT(ports[port_id++]);
                 for (size_t j=0; j<meta::art_delay_metadata::EQ_BANDS; ++j)
-                {
-                    TRACE_PORT(ports[port_id]);
-                    ad->pBandGain[j]        = ports[port_id++];
-                }
-                TRACE_PORT(ports[port_id]);
-                ad->pPan[0]             = ports[port_id++];
+                    ad->pBandGain[j]        = TRACE_PORT(ports[port_id++]);
+
+                ad->pPan[0]             = TRACE_PORT(ports[port_id++]);
                 if (ad->bStereo)
-                {
-                    TRACE_PORT(ports[port_id]);
-                    ad->pPan[1]             = ports[port_id++];
-                }
-                TRACE_PORT(ports[port_id]);
-                ad->pGain               = ports[port_id++];
-                TRACE_PORT(ports[port_id]);
-                port_id++;              // Skip hue settings
+                    ad->pPan[1]             = TRACE_PORT(ports[port_id++]);
+
+                ad->pGain               = TRACE_PORT(ports[port_id++]);
+                TRACE_PORT(ports[port_id++]); // Skip hue settings
 
                 // Feedback
-                TRACE_PORT(ports[port_id]);
-                ad->pFeedOn             = ports[port_id++];
-                TRACE_PORT(ports[port_id]);
-                ad->pFeedGain           = ports[port_id++];
-                TRACE_PORT(ports[port_id]);
-                ad->pFeedTempoRef       = ports[port_id++];
-                TRACE_PORT(ports[port_id]);
-                ad->pFeedBarFrac        = ports[port_id++];
-                TRACE_PORT(ports[port_id]);
-                ad->pFeedBarDenom       = ports[port_id++];
-                TRACE_PORT(ports[port_id]);
-                ad->pFeedBarMul         = ports[port_id++];
-                TRACE_PORT(ports[port_id]);
-                ad->pFeedFrac           = ports[port_id++];
-                TRACE_PORT(ports[port_id]);
-                ad->pFeedDenom          = ports[port_id++];
-                TRACE_PORT(ports[port_id]);
-                ad->pFeedDelay          = ports[port_id++];
+                ad->pFeedOn             = TRACE_PORT(ports[port_id++]);
+                ad->pFeedGain           = TRACE_PORT(ports[port_id++]);
+                ad->pFeedTempoRef       = TRACE_PORT(ports[port_id++]);
+                ad->pFeedBarFrac        = TRACE_PORT(ports[port_id++]);
+                ad->pFeedBarDenom       = TRACE_PORT(ports[port_id++]);
+                ad->pFeedBarMul         = TRACE_PORT(ports[port_id++]);
+                ad->pFeedFrac           = TRACE_PORT(ports[port_id++]);
+                ad->pFeedDenom          = TRACE_PORT(ports[port_id++]);
+                ad->pFeedDelay          = TRACE_PORT(ports[port_id++]);
 
-                TRACE_PORT(ports[port_id]);
-                ad->pOutDelay           = ports[port_id++];
-                TRACE_PORT(ports[port_id]);
-                ad->pOutFeedback        = ports[port_id++];
-                TRACE_PORT(ports[port_id]);
-                ad->pOutOfRange         = ports[port_id++];
-                TRACE_PORT(ports[port_id]);
-                ad->pOutFeedRange       = ports[port_id++];
-                TRACE_PORT(ports[port_id]);
-                ad->pOutLoop            = ports[port_id++];
-                TRACE_PORT(ports[port_id]);
-                ad->pOutTempo           = ports[port_id++];
-                TRACE_PORT(ports[port_id]);
-                ad->pOutFeedTempo       = ports[port_id++];
-                TRACE_PORT(ports[port_id]);
-                ad->pOutDelayRef        = ports[port_id++];
+                ad->pOutDelay           = TRACE_PORT(ports[port_id++]);
+                ad->pOutFeedback        = TRACE_PORT(ports[port_id++]);
+                ad->pOutOfRange         = TRACE_PORT(ports[port_id++]);
+                ad->pOutFeedRange       = TRACE_PORT(ports[port_id++]);
+                ad->pOutLoop            = TRACE_PORT(ports[port_id++]);
+                ad->pOutTempo           = TRACE_PORT(ports[port_id++]);
+                ad->pOutFeedTempo       = TRACE_PORT(ports[port_id++]);
+                ad->pOutDelayRef        = TRACE_PORT(ports[port_id++]);
             }
         }
 
         void art_delay::destroy()
         {
             plug::Module::destroy();
+            do_destroy();
+        }
 
+        void art_delay::do_destroy()
+        {
             if (vDelays != NULL)
             {
                 for (size_t i=0; i<meta::art_delay_metadata::MAX_PROCESSORS; ++i)
@@ -1296,7 +1239,7 @@ namespace lsp
 
             v->write("pData", pData);
         }
-    } // namespace plugins
-} // namespace lsp
+    } /* namespace plugins */
+} /* namespace lsp */
 
 
