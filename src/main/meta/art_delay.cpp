@@ -277,6 +277,7 @@ namespace lsp
         {
             "Künstlerische Verzögerung",
             "Artistic Delay Mono",
+            "Artistic Delay Mono",
             "KV16M",
             &developers::v_sadovnikov,
             "art_delay_mono",
@@ -300,6 +301,7 @@ namespace lsp
         const meta::plugin_t  art_delay_stereo =
         {
             "Künstlerische Verzögerung",
+            "Artistic Delay Stereo",
             "Artistic Delay Stereo",
             "KV16S",
             &developers::v_sadovnikov,
