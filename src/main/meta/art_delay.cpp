@@ -25,7 +25,7 @@
 
 #define LSP_PLUGINS_ART_DELAY_VERSION_MAJOR       1
 #define LSP_PLUGINS_ART_DELAY_VERSION_MINOR       0
-#define LSP_PLUGINS_ART_DELAY_VERSION_MICRO       16
+#define LSP_PLUGINS_ART_DELAY_VERSION_MICRO       17
 
 #define LSP_PLUGINS_ART_DELAY_VERSION  \
     LSP_MODULE_VERSION( \
@@ -277,6 +277,7 @@ namespace lsp
         {
             "Künstlerische Verzögerung",
             "Artistic Delay Mono",
+            "Artistic Delay Mono",
             "KV16M",
             &developers::v_sadovnikov,
             "art_delay_mono",
@@ -300,6 +301,7 @@ namespace lsp
         const meta::plugin_t  art_delay_stereo =
         {
             "Künstlerische Verzögerung",
+            "Artistic Delay Stereo",
             "Artistic Delay Stereo",
             "KV16S",
             &developers::v_sadovnikov,
