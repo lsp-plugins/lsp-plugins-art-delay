@@ -162,13 +162,13 @@ namespace lsp
                 size_t                      nMaxDelay;      // Maximum delay
                 pan_t                       sOldDryPan[2];  // Old panning + gain
                 pan_t                       sNewDryPan[2];  // New panning + gain
+                art_tempo_t                *vTempo;         // Tempo settings
+                art_delay_t                *vDelays;        // Delay lines
                 float                      *vOutBuf[2];     // Output buffer
                 float                      *vGainBuf;       // Gain control buffer
                 float                      *vDelayBuf;      // Delay control buffer
                 float                      *vFeedBuf;       // Feedback delay control buffer
                 float                      *vTempBuf;       // Temporary buffer for delay processing
-                art_tempo_t                *vTempo;         // Tempo settings
-                art_delay_t                *vDelays;        // Delay lines
                 volatile uint32_t           nMemUsed;       // Overall memory usage by delay lines
 
                 dspu::Bypass                sBypass[2];     // Bypasses

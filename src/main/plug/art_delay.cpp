@@ -1,6 +1,6 @@
 /*
- * Copyright (C) 2023 Linux Studio Plugins Project <https://lsp-plug.in/>
- *           (C) 2023 Vladimir Sadovnikov <sadko4u@gmail.com>
+ * Copyright (C) 2024 Linux Studio Plugins Project <https://lsp-plug.in/>
+ *           (C) 2024 Vladimir Sadovnikov <sadko4u@gmail.com>
  *
  * This file is part of lsp-plugins-art-delay
  * Created on: 3 авг. 2021 г.
@@ -25,19 +25,14 @@
 #include <lsp-plug.in/common/debug.h>
 #include <lsp-plug.in/dsp/dsp.h>
 #include <lsp-plug.in/dsp-units/units.h>
-
-#define BUFFER_SIZE             0x1000U
-#define DELAY_REF_NONE          -1
+#include <lsp-plug.in/shared/debug.h>
 
 namespace lsp
 {
     namespace plugins
     {
-        static plug::IPort *TRACE_PORT(plug::IPort *p)
-        {
-            lsp_trace("  port id=%s", (p)->metadata()->id);
-            return p;
-        }
+        static constexpr size_t BUFFER_SIZE             = 0x1000;
+        static constexpr ssize_t DELAY_REF_NONE         = -1;
 
         static const float art_delay_ratio[] =
         {
@@ -219,25 +214,16 @@ namespace lsp
                 return;
 
             // Allocate data buffers
+            vTempo                  = advance_ptr_bytes<art_tempo_t>(ptr, sz_tempo);
+            vDelays                 = advance_ptr_bytes<art_delay_t>(ptr, sz_proc);
+
             for (size_t i=0; i<2; ++i)
-            {
-                vOutBuf[i]              = reinterpret_cast<float *>(ptr);
-                ptr                    += sz_buf;
-            }
+                vOutBuf[i]              = advance_ptr_bytes<float>(ptr, sz_buf);
 
-            vGainBuf                = reinterpret_cast<float *>(ptr);
-            ptr                    += sz_buf;
-            vDelayBuf               = reinterpret_cast<float *>(ptr);
-            ptr                    += sz_buf;
-            vFeedBuf                = reinterpret_cast<float *>(ptr);
-            ptr                    += sz_buf;
-            vTempBuf                = reinterpret_cast<float *>(ptr);
-            ptr                    += sz_buf;
-
-            vTempo                  = reinterpret_cast<art_tempo_t *>(ptr);
-            ptr                    += sz_tempo;
-            vDelays                 = reinterpret_cast<art_delay_t *>(ptr);
-            ptr                    += sz_proc;
+            vGainBuf                = advance_ptr_bytes<float>(ptr, sz_buf);
+            vDelayBuf               = advance_ptr_bytes<float>(ptr, sz_buf);
+            vFeedBuf                = advance_ptr_bytes<float>(ptr, sz_buf);
+            vTempBuf                = advance_ptr_bytes<float>(ptr, sz_buf);
 
             // Initialize tempos
             for (size_t i=0; i<meta::art_delay_metadata::MAX_TEMPOS; ++i)
@@ -367,43 +353,43 @@ namespace lsp
             // Bind in/out ports
             lsp_trace("Binding audio ports");
 
-            pIn[0]          = TRACE_PORT(ports[port_id++]);
+            BIND_PORT(pIn[0]);
             if (bStereoIn)
-                pIn[1]          = TRACE_PORT(ports[port_id++]);
+                BIND_PORT(pIn[1]);
 
-            pOut[0]         = TRACE_PORT(ports[port_id++]);
-            pOut[1]         = TRACE_PORT(ports[port_id++]);
+            BIND_PORT(pOut[0]);
+            BIND_PORT(pOut[1]);
 
             // Bind common ports
             lsp_trace("Binding common ports");
-            pBypass         = TRACE_PORT(ports[port_id++]);
-            TRACE_PORT(ports[port_id++]); // Skip delay line selector
-            pMaxDelay       = TRACE_PORT(ports[port_id++]);
+            BIND_PORT(pBypass);
+            SKIP_PORT("Delay line selector"); // Skip delay line selector
+            BIND_PORT(pMaxDelay);
 
-            pPan[0]         = TRACE_PORT(ports[port_id++]);
+            BIND_PORT(pPan[0]);
             if (bStereoIn)
-                pPan[1]         = TRACE_PORT(ports[port_id++]);
+                BIND_PORT(pPan[1]);
 
-            pDryGain        = TRACE_PORT(ports[port_id++]);
-            pWetGain        = TRACE_PORT(ports[port_id++]);
-            pDryOn          = TRACE_PORT(ports[port_id++]);
-            pWetOn          = TRACE_PORT(ports[port_id++]);
-            pMono           = TRACE_PORT(ports[port_id++]);
-            pFeedback       = TRACE_PORT(ports[port_id++]);
-            pFeedGain       = TRACE_PORT(ports[port_id++]);
-            pOutGain        = TRACE_PORT(ports[port_id++]);
-            pOutDMax        = TRACE_PORT(ports[port_id++]);
-            pOutMemUse      = TRACE_PORT(ports[port_id++]);
+            BIND_PORT(pDryGain);
+            BIND_PORT(pWetGain);
+            BIND_PORT(pDryOn);
+            BIND_PORT(pWetOn);
+            BIND_PORT(pMono);
+            BIND_PORT(pFeedback);
+            BIND_PORT(pFeedGain);
+            BIND_PORT(pOutGain);
+            BIND_PORT(pOutDMax);
+            BIND_PORT(pOutMemUse);
 
             // Bind delay ports
             lsp_trace("Binding tempo ports");
             for (size_t i=0; i<meta::art_delay_metadata::MAX_TEMPOS; ++i)
             {
                 art_tempo_t *at         = &vTempo[i];
-                at->pTempo              = TRACE_PORT(ports[port_id++]);
-                at->pRatio              = TRACE_PORT(ports[port_id++]);
-                at->pSync               = TRACE_PORT(ports[port_id++]);
-                at->pOutTempo           = TRACE_PORT(ports[port_id++]);
+                BIND_PORT(at->pTempo);
+                BIND_PORT(at->pRatio);
+                BIND_PORT(at->pSync);
+                BIND_PORT(at->pOutTempo);
             }
 
             // Bind delay ports
@@ -412,52 +398,52 @@ namespace lsp
             {
                 art_delay_t *ad         = &vDelays[i];
 
-                ad->pOn                 = TRACE_PORT(ports[port_id++]);
-                ad->pSolo               = TRACE_PORT(ports[port_id++]);
-                ad->pMute               = TRACE_PORT(ports[port_id++]);
-                ad->pDelayRef           = TRACE_PORT(ports[port_id++]);
-                ad->pDelayMul           = TRACE_PORT(ports[port_id++]);
-                ad->pTempoRef           = TRACE_PORT(ports[port_id++]);
-                ad->pBarFrac            = TRACE_PORT(ports[port_id++]);
-                ad->pBarDenom           = TRACE_PORT(ports[port_id++]);
-                ad->pBarMul             = TRACE_PORT(ports[port_id++]);
-                ad->pFrac               = TRACE_PORT(ports[port_id++]);
-                ad->pDenom              = TRACE_PORT(ports[port_id++]);
-                ad->pDelay              = TRACE_PORT(ports[port_id++]);
-                ad->pEqOn               = TRACE_PORT(ports[port_id++]);
-                ad->pLcfOn              = TRACE_PORT(ports[port_id++]);
-                ad->pLcfFreq            = TRACE_PORT(ports[port_id++]);
-                ad->pHcfOn              = TRACE_PORT(ports[port_id++]);
-                ad->pHcfFreq            = TRACE_PORT(ports[port_id++]);
+                BIND_PORT(ad->pOn);
+                BIND_PORT(ad->pSolo);
+                BIND_PORT(ad->pMute);
+                BIND_PORT(ad->pDelayRef);
+                BIND_PORT(ad->pDelayMul);
+                BIND_PORT(ad->pTempoRef);
+                BIND_PORT(ad->pBarFrac);
+                BIND_PORT(ad->pBarDenom);
+                BIND_PORT(ad->pBarMul);
+                BIND_PORT(ad->pFrac);
+                BIND_PORT(ad->pDenom);
+                BIND_PORT(ad->pDelay);
+                BIND_PORT(ad->pEqOn);
+                BIND_PORT(ad->pLcfOn);
+                BIND_PORT(ad->pLcfFreq);
+                BIND_PORT(ad->pHcfOn);
+                BIND_PORT(ad->pHcfFreq);
                 for (size_t j=0; j<meta::art_delay_metadata::EQ_BANDS; ++j)
-                    ad->pBandGain[j]        = TRACE_PORT(ports[port_id++]);
+                    BIND_PORT(ad->pBandGain[j]);
 
-                ad->pPan[0]             = TRACE_PORT(ports[port_id++]);
+                BIND_PORT(ad->pPan[0]);
                 if (ad->bStereo)
-                    ad->pPan[1]             = TRACE_PORT(ports[port_id++]);
+                    BIND_PORT(ad->pPan[1]);
 
-                ad->pGain               = TRACE_PORT(ports[port_id++]);
-                TRACE_PORT(ports[port_id++]); // Skip hue settings
+                BIND_PORT(ad->pGain);
+                SKIP_PORT("Hue"); // Skip hue settings
 
                 // Feedback
-                ad->pFeedOn             = TRACE_PORT(ports[port_id++]);
-                ad->pFeedGain           = TRACE_PORT(ports[port_id++]);
-                ad->pFeedTempoRef       = TRACE_PORT(ports[port_id++]);
-                ad->pFeedBarFrac        = TRACE_PORT(ports[port_id++]);
-                ad->pFeedBarDenom       = TRACE_PORT(ports[port_id++]);
-                ad->pFeedBarMul         = TRACE_PORT(ports[port_id++]);
-                ad->pFeedFrac           = TRACE_PORT(ports[port_id++]);
-                ad->pFeedDenom          = TRACE_PORT(ports[port_id++]);
-                ad->pFeedDelay          = TRACE_PORT(ports[port_id++]);
+                BIND_PORT(ad->pFeedOn);
+                BIND_PORT(ad->pFeedGain);
+                BIND_PORT(ad->pFeedTempoRef);
+                BIND_PORT(ad->pFeedBarFrac);
+                BIND_PORT(ad->pFeedBarDenom);
+                BIND_PORT(ad->pFeedBarMul);
+                BIND_PORT(ad->pFeedFrac);
+                BIND_PORT(ad->pFeedDenom);
+                BIND_PORT(ad->pFeedDelay);
 
-                ad->pOutDelay           = TRACE_PORT(ports[port_id++]);
-                ad->pOutFeedback        = TRACE_PORT(ports[port_id++]);
-                ad->pOutOfRange         = TRACE_PORT(ports[port_id++]);
-                ad->pOutFeedRange       = TRACE_PORT(ports[port_id++]);
-                ad->pOutLoop            = TRACE_PORT(ports[port_id++]);
-                ad->pOutTempo           = TRACE_PORT(ports[port_id++]);
-                ad->pOutFeedTempo       = TRACE_PORT(ports[port_id++]);
-                ad->pOutDelayRef        = TRACE_PORT(ports[port_id++]);
+                BIND_PORT(ad->pOutDelay);
+                BIND_PORT(ad->pOutFeedback);
+                BIND_PORT(ad->pOutOfRange);
+                BIND_PORT(ad->pOutFeedRange);
+                BIND_PORT(ad->pOutLoop);
+                BIND_PORT(ad->pOutTempo);
+                BIND_PORT(ad->pOutFeedTempo);
+                BIND_PORT(ad->pOutDelayRef);
             }
         }
 
@@ -526,12 +512,14 @@ namespace lsp
                 art_delay_t *ad         = &vDelays[i];
 
                 // The length of each delay will be changed in offline mode
-                ad->sEq[0].set_sample_rate(sr);
-                ad->sEq[1].set_sample_rate(sr);
-                ad->sBypass[0].init(sr);
-                ad->sBypass[1].init(sr);
                 ad->sOutOfRange.init(sr);
                 ad->sFeedOutRange.init(sr);
+
+                for (size_t j=0; j < 2; ++j)
+                {
+                    ad->sBypass[j].init(sr);
+                    ad->sEq[j].set_sample_rate(sr);
+                }
             }
         }
 
@@ -864,7 +852,7 @@ namespace lsp
 
             // Create delay control signal if it is changing slowly
             if ((ad->sOld.fDelay != ad->sNew.fDelay) &&
-                (fabs(ad->sOld.fDelay - ad->sNew.fDelay)*0.25f <= samples))
+                (fabsf(ad->sOld.fDelay - ad->sNew.fDelay)*0.25f <= samples))
             {
                 dsp::lin_inter_set(vDelayBuf, 0, ad->sOld.fDelay, samples, ad->sNew.fDelay, off, count);
                 dmax = lsp_max(vDelayBuf[0], vDelayBuf[count-1]);
@@ -877,7 +865,7 @@ namespace lsp
 
             // Create feedback delay control signal if it is changing slowly
             if ((ad->sOld.fFeedLen != ad->sNew.fFeedLen) &&
-                (fabs(ad->sOld.fFeedLen - ad->sNew.fFeedLen)*0.25f <= samples))
+                (fabsf(ad->sOld.fFeedLen - ad->sNew.fFeedLen)*0.25f <= samples))
             {
                 dsp::lin_inter_set(vFeedBuf, 0, ad->sOld.fFeedLen, samples, ad->sNew.fFeedLen, off, count);
                 fbmax = lsp_max(vFeedBuf[0], vFeedBuf[count-1]);
@@ -898,7 +886,7 @@ namespace lsp
                 return;
             size_t channels = (ad->bStereo) ? 2 : 1;
             for (size_t i=0; i<channels; ++i)
-                if (ad->pCDelay[i] == NULL)
+                if ((ad->pCDelay[i] == NULL) || (ad->pCDelay[i]->max_delay() < nMaxDelay))
                     return;
 
             // Create feedback gain control signal
@@ -1193,11 +1181,7 @@ namespace lsp
             v->write("nMaxDelay", nMaxDelay);
             dump_pan(v, "sOldDryPan", sOldDryPan, 2);
             dump_pan(v, "sNewDryPan", sNewDryPan, 2);
-            v->writev("vOutBuf", vOutBuf, 2);
-            v->write("vGainBuf", vGainBuf);
-            v->write("vDelayBuf", vDelayBuf);
-            v->write("vFeedBuf", vFeedBuf);
-            v->write("vTempBuf", vTempBuf);
+
             v->begin_array("vTempo", vTempo, meta::art_delay_metadata::MAX_TEMPOS);
             {
                 for (size_t i=0; i<meta::art_delay_metadata::MAX_TEMPOS; ++i)
@@ -1209,7 +1193,13 @@ namespace lsp
                 for (size_t i=0; i<meta::art_delay_metadata::MAX_PROCESSORS; ++i)
                     dump_art_delay(v, &vDelays[i]);
             }
+
             v->end_array();
+            v->writev("vOutBuf", vOutBuf, 2);
+            v->write("vGainBuf", vGainBuf);
+            v->write("vDelayBuf", vDelayBuf);
+            v->write("vFeedBuf", vFeedBuf);
+            v->write("vTempBuf", vTempBuf);
             v->write("nMemUsed", nMemUsed);
 
             v->begin_array("sBypass", sBypass, 2);
