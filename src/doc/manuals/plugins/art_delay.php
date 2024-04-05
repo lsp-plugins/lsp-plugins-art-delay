@@ -41,6 +41,7 @@ allocates memory only if it is turned on in the delay effect.</p>
 	<?php }?>
 	<li><b>Dry</b> - the level of the dry (unprocessed) signal.</li>
 	<li><b>Wet</b> - the level of the wet (processed) signal.</li>
+	<li><b>Dry/Wet</b> - the balance between mixed signal (see Dry and Wet knobs) and unprocessed (dry) signal.</li>
 </ul>
 
 <b>Indicators</b>:

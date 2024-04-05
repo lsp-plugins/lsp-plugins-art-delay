@@ -149,6 +149,7 @@ namespace lsp
             pan("_in", "Input"), \
             DRY_GAIN(GAIN_AMP_0_DB), \
             WET_GAIN(GAIN_AMP_0_DB), \
+            DRYWET(100.0f), \
             SWITCH("dry_on", "Dry enable", 1.0f), \
             SWITCH("wet_on", "Wet enable", 1.0f), \
             SWITCH("mono", "Mono output", 0.0f), \

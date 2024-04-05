@@ -1,6 +1,6 @@
 /*
- * Copyright (C) 2023 Linux Studio Plugins Project <https://lsp-plug.in/>
- *           (C) 2023 Vladimir Sadovnikov <sadko4u@gmail.com>
+ * Copyright (C) 2025 Linux Studio Plugins Project <https://lsp-plug.in/>
+ *           (C) 2025 Vladimir Sadovnikov <sadko4u@gmail.com>
  *
  * This file is part of lsp-plugins-art-delay
  * Created on: 3 авг. 2021 г.
@@ -181,6 +181,7 @@ namespace lsp
                 plug::IPort                *pPan[2];        // Panning
                 plug::IPort                *pDryGain;       // Dry gain
                 plug::IPort                *pWetGain;       // Wet gain
+                plug::IPort                *pDryWet;        // Dry/Wet balance
                 plug::IPort                *pDryOn;         // Dry enable
                 plug::IPort                *pWetOn;         // Wet enable
                 plug::IPort                *pMono;          // Mono/Stereo switch
@@ -208,7 +209,12 @@ namespace lsp
 
             public:
                 explicit art_delay(const meta::plugin_t *metadata, bool stereo_in);
+                art_delay(const art_delay &) = delete;
+                art_delay(art_delay &&) = delete;
                 virtual ~art_delay() override;
+
+                art_delay & operator=(const art_delay &) = delete;
+                art_delay & operator=(art_delay &&) = delete;
 
                 virtual void        init(plug::IWrapper *wrapper, plug::IPort **ports) override;
                 virtual void        destroy() override;

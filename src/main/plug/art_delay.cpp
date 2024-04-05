@@ -1,6 +1,6 @@
 /*
- * Copyright (C) 2024 Linux Studio Plugins Project <https://lsp-plug.in/>
- *           (C) 2024 Vladimir Sadovnikov <sadko4u@gmail.com>
+ * Copyright (C) 2025 Linux Studio Plugins Project <https://lsp-plug.in/>
+ *           (C) 2025 Vladimir Sadovnikov <sadko4u@gmail.com>
  *
  * This file is part of lsp-plugins-art-delay
  * Created on: 3 авг. 2021 г.
@@ -183,6 +183,7 @@ namespace lsp
             pPan[1]         = NULL;
             pDryGain        = NULL;
             pWetGain        = NULL;
+            pDryWet         = NULL;
             pDryOn          = NULL;
             pWetOn          = NULL;
             pMono           = NULL;
@@ -372,6 +373,7 @@ namespace lsp
 
             BIND_PORT(pDryGain);
             BIND_PORT(pWetGain);
+            BIND_PORT(pDryWet);
             BIND_PORT(pDryOn);
             BIND_PORT(pWetOn);
             BIND_PORT(pMono);
@@ -563,8 +565,11 @@ namespace lsp
 
             bool bypass         = pBypass->value() >= 0.5f;
             float g_out         = pOutGain->value();
-            float dry           = (pDryOn->value() >= 0.5f) ? pDryGain->value() * g_out : 0.0f;
-            float wet           = (pWetOn->value() >= 0.5f) ? pWetGain->value() * g_out : 0.0f;
+            float dry_gain      = (pDryOn->value() >= 0.5f) ? pDryGain->value() * g_out : 0.0f;
+            float wet_gain      = (pWetOn->value() >= 0.5f) ? pWetGain->value() * g_out : 0.0f;
+            float drywet        = pDryWet->value();
+            float dry           = dry_gain * drywet + 1.0f - drywet;
+            float wet           = wet_gain * drywet;
             float fback         = (pFeedback->value() >= 0.5f) ? pFeedGain->value() : 0.0f;
 
             bMono               = pMono->value() >= 0.5f;
@@ -1218,6 +1223,7 @@ namespace lsp
             v->writev("pPan", pPan, 2);
             v->write("pDryGain", pDryGain);
             v->write("pWetGain", pWetGain);
+            v->write("pDryWet", pDryWet);
             v->write("pDryOn", pDryOn);
             v->write("pWetOn", pWetOn);
             v->write("pMono", pMono);
