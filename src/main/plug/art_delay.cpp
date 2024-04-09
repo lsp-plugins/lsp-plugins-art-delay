@@ -567,7 +567,7 @@ namespace lsp
             float g_out         = pOutGain->value();
             float dry_gain      = (pDryOn->value() >= 0.5f) ? pDryGain->value() * g_out : 0.0f;
             float wet_gain      = (pWetOn->value() >= 0.5f) ? pWetGain->value() * g_out : 0.0f;
-            float drywet        = pDryWet->value();
+            float drywet        = pDryWet->value() * 0.01f;
             float dry           = dry_gain * drywet + 1.0f - drywet;
             float wet           = wet_gain * drywet;
             float fback         = (pFeedback->value() >= 0.5f) ? pFeedGain->value() : 0.0f;
