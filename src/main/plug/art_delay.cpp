@@ -1,6 +1,6 @@
 /*
- * Copyright (C) 2025 Linux Studio Plugins Project <https://lsp-plug.in/>
- *           (C) 2025 Vladimir Sadovnikov <sadko4u@gmail.com>
+ * Copyright (C) 2024 Linux Studio Plugins Project <https://lsp-plug.in/>
+ *           (C) 2024 Vladimir Sadovnikov <sadko4u@gmail.com>
  *
  * This file is part of lsp-plugins-art-delay
  * Created on: 3 авг. 2021 г.
@@ -565,11 +565,11 @@ namespace lsp
 
             bool bypass         = pBypass->value() >= 0.5f;
             float g_out         = pOutGain->value();
-            float dry_gain      = (pDryOn->value() >= 0.5f) ? pDryGain->value() * g_out : 0.0f;
-            float wet_gain      = (pWetOn->value() >= 0.5f) ? pWetGain->value() * g_out : 0.0f;
+            float dry_gain      = (pDryOn->value() >= 0.5f) ? pDryGain->value() : 0.0f;
+            float wet_gain      = (pWetOn->value() >= 0.5f) ? pWetGain->value() : 0.0f;
             float drywet        = pDryWet->value() * 0.01f;
-            float dry           = dry_gain * drywet + 1.0f - drywet;
-            float wet           = wet_gain * drywet;
+            float dry           = (dry_gain * drywet + 1.0f - drywet) * g_out;
+            float wet           = wet_gain * drywet * g_out;
             float fback         = (pFeedback->value() >= 0.5f) ? pFeedGain->value() : 0.0f;
 
             bMono               = pMono->value() >= 0.5f;
