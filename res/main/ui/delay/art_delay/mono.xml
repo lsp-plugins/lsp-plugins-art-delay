@@ -130,71 +130,70 @@
 			</vbox>
 
 			<!-- Master channel -->
-			<vbox spacing="4">
 				<group text="groups.chan.master" ipadding="0">
-					<grid rows="12" cols="5">
-						<ui:with bg.bright="(:fb ine 0) ? 1.0 : :const_bg_darken">
-							<cell cols="5">
-								<label text="labels.feedback" bright="(:fb ine 0) ? 1.0 : 0.75"/>
-							</cell>
-
-							<knob id="fbg" scolor="(:fb ine 0) ? 'cyan' : 'cyan_inactive'"/>
-							<void width="4" hreduce="true"/>
+					<grid rows="11" cols="3" bg.color="bg_schema">
+						<!-- Feedback -->
+						<ui:with bg.bright="(:fb ine 0) ? 1.0 : :const_bg_darken" bright="(:fb ine 0) ? 1.0 : 0.75">
 							<cell cols="3">
-								<value id="fbg" bright="(:fb ine 0) ? 1.0 : 0.75"/>
+								<hbox hfill="false" pad.v="4" pad.h="6">
+									<knob id="fbg" scolor="(:fb ine 0) ? 'cyan' : 'cyan_inactive'"/>
+									<vbox vfill="false" pad.l="6" wmin="48">
+										<label text="labels.feedback"/>
+										<value id="fbg" sline="true"/>
+									</vbox>
+								</hbox>
 							</cell>
 						</ui:with>
-
-						<cell cols="5"><hsep pad.v="2" vreduce="true" bg.color="bg"/></cell>
-
-						<cell cols="5">
-							<label text="labels.output"/>
-						</cell>
-
-						<knob id="g_out" balance="0"/>
-						<void width="4" hreduce="true"/>
+						<!-- Separator -->
+						<cell cols="3"><hsep pad.v="2" vreduce="true" bg.color="bg"/></cell>
+						<!-- Output -->
 						<cell cols="3">
-							<value id="g_out"/>
+							<hbox hfill="false" pad.v="4" pad.h="6">
+								<knob id="g_out"/>
+								<vbox vfill="false" pad.l="6" wmin="48">
+									<label text="labels.output"/>
+									<value id="g_out" sline="true"/>
+								</vbox>
+							</hbox>
 						</cell>
-
-						<cell cols="5">
-							<hsep pad.v="2" vreduce="true" bg.color="bg"/>
+						<!-- Separator -->
+						<cell cols="3"><hsep pad.v="2" vreduce="true" bg.color="bg"/></cell>
+						<!-- Dry Pan -->
+						<cell cols="3">
+							<hbox hfill="false" pad.v="4" pad.h="6">
+								<knob id="p_in" balance="0" scolor="balance"/>
+								<vbox vfill="false" pad.l="6" wmin="48">
+									<label text="labels.signal.dry_pan"/>
+									<value id="p_in" sline="true"/>
+								</vbox>
+							</hbox>
 						</cell>
-
-						<cell cols="5">
-							<label text="labels.signal.dry_pan"/>
-						</cell>
-
-						<knob id="p_in" balance="0" scolor="balance" pad.h="6"/>
-						<void width="4" hreduce="true"/>
-						<cell cols="5">
-							<value id="p_in"/>
-						</cell>
-
-						<cell cols="5">
-							<hsep pad.v="2" vreduce="true" bg.color="bg"/>
-						</cell>
-
+						<!-- Separator -->
+						<cell cols="3"><hsep pad.v="2" vreduce="true" bg.color="bg"/></cell>
+						<!-- Dry Wet -->
 						<button id="dry_on" pad.v="6" width.min="34" fill="false" height="10" text="labels.signal.dry" ui:inject="Button_yellow_6" bg.bright="(:dry_on ine 0) ? 1.0 : :const_bg_darken" bright="(:dry_on ine 0) ? 1.0 : 0.75"/>
 						<cell rows="3">
 							<vsep pad.h="2" hreduce="true" bg.color="bg"/>
 						</cell>
 						<button id="wet_on" pad.v="6" width.min="34" fill="false" height="10" text="labels.signal.wet" ui:inject="Button_blue_6" bg.bright="(:wet_on ine 0) ? 1.0 : :const_bg_darken" bright="(:wet_on ine 0) ? 1.0 : 0.75"/>
-						<cell rows="3">
-							<vsep pad.h="2" hreduce="true" bg.color="bg"/>
-						</cell>
-						<label text="labels.signal.drywet" />
-
 						<knob id="dry" pad.h="6" scolor="(:dry_on ine 0) ? 'dry' : 'dry_inactive'" bg.bright="(:dry_on ine 0) ? 1.0 : :const_bg_darken"/>
 						<knob id="wet" pad.h="6" scolor="(:wet_on ine 0) ? 'wet' : 'wet_inactive'" bg.bright="(:wet_on ine 0) ? 1.0 : :const_bg_darken"/>
-						<knob id="drywet" pad.h="6" scolor="drywet" />
-
 						<value id="dry" bg.bright="(:dry_on ine 0) ? 1.0 : :const_bg_darken" bright="(:dry_on ine 0) ? 1.0 : 0.75"/>
 						<value id="wet" bg.bright="(:wet_on ine 0) ? 1.0 : :const_bg_darken" bright="(:wet_on ine 0) ? 1.0 : 0.75"/>
-						<value id="drywet" />
+						<!-- Separator -->
+						<cell cols="3"><hsep pad.v="2" vreduce="true" bg.color="bg"/></cell>
+						<!-- Dry/Wet -->
+						<cell cols="3">
+							<hbox hfill="false" pad.v="4" pad.h="6">
+								<knob id="drywet" scolor="drywet"/>
+								<vbox vfill="false" pad.l="6" wmin="48">
+									<label text="labels.signal.drywet"/>
+									<value id="drywet" sline="true"/>
+								</vbox>
+							</hbox>
+						</cell>
 					</grid>
 				</group>
-			</vbox>
 		</hbox>
 
 		<!-- Delay lines -->
