@@ -1,489 +1,494 @@
 <plugin resizable="true">
-		<vbox spacing="4">
+	<vbox spacing="4">
 
-			<!-- Graph, tempo and master box -->
-			<hbox spacing="4" expand="true">
+		<!-- Graph, tempo and master box -->
+		<hbox spacing="4" expand="true">
 
-				<!-- Graph and tempo box -->
-				<vbox spacing="4" expand="true">
+			<!-- Graph and tempo box -->
+			<vbox spacing="4" expand="true">
 
-					<!-- Graph box -->
-					<hbox spacing="2" expand="true">
-						<vbox hspacing="2" hexpand="true">
+				<!-- Graph box -->
+				<hbox spacing="2" expand="true">
+					<vbox hspacing="2" hexpand="true">
 
-							<hbox spacing="4" bg.color="bg_schema" pad.h="6" pad.v="4">
-								<align halign="-1" expand="true">
-									<hbox >
-										<label text="labels.memory:mb" pad.r="6"/>
-										<indicator id="memuse" format="f6.1!" tcolor="green"/>
-									</hbox>
-								</align>
-								<align halign="1" expand="true">
-									<hbox >
-										<label text="labels.max_delay:s" pad.r="6"/>
-										<combo id="dmax" pad.r="12"/>
-										<button id="mono" ui:inject="Button_yellow" text="labels.signal.mono" height="22" pad.r="12" width="58"/>
-										<button id="fb" text="labels.feedback" ui:inject="Button_cyan" size="22"/>
-									</hbox>
-								</align>
-
-							</hbox>
-							<hsep bg.color="bg" pad.v="2" vreduce="true"/>
-							<group ui:inject="GraphGroup" ipadding="0" expand="true" fill="true" text="labels.graphs.delay_graph">
-								<graph width.min="320" height.min="75" expand="true">
-									<origin hpos="-1" vpos="0" visible="false"/>
-
-									<!-- Axis -->
-									<axis min="0" max=":dmaxv" color="graph_prim" angle="0.0" logarithmic="false"/>
-									<axis min="-1" max="1" color="graph_prim" angle="0.5" logarithmic="false" visibility="false"/>
-
-									<text text="graph.axis.time" ox="0" oy="1" x=":dmaxv" y="0" halign="-1" valign="-1" color="graph_prim"/>
-
-									<ui:for id="i" first="0" last="15">
-										<marker value=":adt${i}" ox="0" oy="1" width="3" color="graph_marker_cycle" color.hue=":hue${i}" visibility=":on${i}"/>
-										<marker value=":adt${i} + :afbt${i}" ox="0" oy="1" width="1" color="graph_marker_cycle" color.hue=":hue${i}" color.a="0.4" visibility=":on${i} and :fbe${i} and :fb"/>
-										<text text="${i}" ox="0" oy="1" x=":adt${i}" y="1" halign="1" valign="-1" color="graph_marker_cycle" color.hue=":hue${i}" visibility=":on${i}"/>
-										<text id="adt${i}" text="labels.values.fmt_value" ox="0" oy="1" x=":adt${i}" y="-1" halign="1" valign="1" color="graph_marker_cycle" color.hue=":hue${i}" visibility=":on${i}"/>
-										<text id="afbt${i}" text="labels.values.fmt_value" ox="0" oy="1" x=":adt${i} + :afbt${i}" y="0" halign="1" valign="1" color="graph_marker_cycle" color.hue=":hue${i}" color.a="0.4" visibility=":on${i} and :fbe${i} and :fb"/>
-									</ui:for>
-								</graph>
-							</group>
-						</vbox>
-
-					</hbox>
-
-					<!-- Global Delay Controls -->
-					<group text="groups.global_delay_ctr" ipadding="0">
-						<grid rows="3" cols="31" transpose="true">
-							<ui:for id="i" first="0" last="15">
-								<ui:if test="(:i igt 0)">
-									<cell rows="3">
-										<vsep pad.h="2" bg.color="bg" hreduce="true"/>
-									</cell>
-								</ui:if>
-								<label text="${i}" pad.t="4"/>
-
-								<button
-									id="on${i}"
-									text="labels.chan.on"
-									ui:inject="Button_Cycle_8"
-									height="19"
-									hfill="true"
-									pad.h="6"
-									pad.v="4"
-									down.color.hue=":hue${i}"
-									down.hover.color.hue=":hue${i}"
-									text.down.color.hue=":hue${i}"
-									text.down.hover.color.hue=":hue${i}"
-									border.down.color.hue=":hue${i}"
-									border.down.hover.color.hue=":hue${i}"/>
-								<hbox pad.h="6" pad.b="4">
-									<button id="s${i}" text="labels.chan.S_olo" ui:inject="Button_green_8" height="19" hfill="true" pad.r="4"/>
-
-									<button id="m${i}" text="labels.chan.M_ute" ui:inject="Button_red_8" height="19" hfill="true"/>
+						<hbox spacing="4" bg.color="bg_schema" pad.h="6" pad.v="4">
+							<align halign="-1" expand="true">
+								<hbox >
+									<label text="labels.memory:mb" pad.r="6"/>
+									<indicator id="memuse" format="f6.1!" tcolor="green"/>
 								</hbox>
-							</ui:for>
-						</grid>
-					</group>
+							</align>
+							<align halign="1" expand="true">
+								<hbox >
+									<label text="labels.max_delay:s" pad.r="6"/>
+									<combo id="dmax" pad.r="12"/>
+									<button id="mono" ui:inject="Button_yellow" text="labels.signal.mono" height="22" pad.r="12" width="58"/>
+									<button id="fb" text="labels.feedback" ui:inject="Button_cyan" size="22"/>
+								</hbox>
+							</align>
 
-					<!-- Tempo settings -->
-					<group text="groups.tempo_settings" ipadding="0">
-						<grid rows="5" cols="23" transpose="true">
-							<ui:for id="i" first="0" last="7">
-								<!-- Separator -->
-								<ui:if test="(:i igt 0)">
-									<cell rows="5">
-										<vsep pad.h="2" bg.color="bg" hreduce="true"/>
-									</cell>
-								</ui:if>
+						</hbox>
+						<hsep bg.color="bg" pad.v="2" vreduce="true"/>
+						<group ui:inject="GraphGroup" ipadding="0" expand="true" fill="true" text="labels.graphs.delay_graph">
+							<graph width.min="320" height.min="75" expand="true">
+								<origin hpos="-1" vpos="0" visible="false"/>
 
-								<!-- BPM device -->
-								<cell cols="2">
-									<label text="${i}" pad.t="4"/>
+								<!-- Axis -->
+								<axis min="0" max=":dmaxv" color="graph_prim" angle="0.0" logarithmic="false"/>
+								<axis min="-1" max="1" color="graph_prim" angle="0.5" logarithmic="false" visibility="false"/>
+
+								<text text="graph.axis.time" ox="0" oy="1" x=":dmaxv" y="0" halign="-1" valign="-1" color="graph_prim"/>
+
+								<ui:for id="i" first="0" last="15">
+									<marker value=":adt${i}" ox="0" oy="1" width="3" color="graph_marker_cycle" color.hue=":hue${i}" visibility=":on${i}"/>
+									<marker value=":adt${i} + :afbt${i}" ox="0" oy="1" width="1" color="graph_marker_cycle" color.hue=":hue${i}" color.a="0.4" visibility=":on${i} and :fbe${i} and :fb"/>
+									<text text="${i}" ox="0" oy="1" x=":adt${i}" y="1" halign="1" valign="-1" color="graph_marker_cycle" color.hue=":hue${i}" visibility=":on${i}"/>
+									<text id="adt${i}" text="labels.values.fmt_value" ox="0" oy="1" x=":adt${i}" y="-1" halign="1" valign="1" color="graph_marker_cycle" color.hue=":hue${i}" visibility=":on${i}"/>
+									<text id="afbt${i}" text="labels.values.fmt_value" ox="0" oy="1" x=":adt${i} + :afbt${i}" y="0" halign="1" valign="1" color="graph_marker_cycle" color.hue=":hue${i}" color.a="0.4" visibility=":on${i} and :fbe${i} and :fb"/>
+								</ui:for>
+							</graph>
+						</group>
+					</vbox>
+
+				</hbox>
+
+				<!-- Global Delay Controls -->
+				<group text="groups.global_delay_ctr" ipadding="0">
+					<grid rows="3" cols="31" transpose="true">
+						<ui:for id="i" first="0" last="15">
+							<ui:if test="(:i igt 0)">
+								<cell rows="3">
+									<vsep pad.h="2" bg.color="bg" hreduce="true"/>
 								</cell>
-								<cell cols="2" pad.h="6" pad.v="4">
-									<ttap id="tempo${i}" text="actions.tap" height="32" hfill="true"/>
+							</ui:if>
+							<label text="${i}" pad.t="4"/>
+
+							<button
+								id="on${i}"
+								text="labels.chan.on"
+								ui:inject="Button_Cycle_8"
+								height="19"
+								hfill="true"
+								pad.h="6"
+								pad.v="4"
+								down.color.hue=":hue${i}"
+								down.hover.color.hue=":hue${i}"
+								text.down.color.hue=":hue${i}"
+								text.down.hover.color.hue=":hue${i}"
+								border.down.color.hue=":hue${i}"
+								border.down.hover.color.hue=":hue${i}"/>
+							<hbox pad.h="6" pad.b="4">
+								<button id="s${i}" text="labels.chan.S_olo" ui:inject="Button_green_8" height="19" hfill="true" pad.r="4"/>
+
+								<button id="m${i}" text="labels.chan.M_ute" ui:inject="Button_red_8" height="19" hfill="true"/>
+							</hbox>
+						</ui:for>
+					</grid>
+				</group>
+
+				<!-- Tempo settings -->
+				<group text="groups.tempo_settings" ipadding="0">
+					<grid rows="5" cols="23" transpose="true">
+						<ui:for id="i" first="0" last="7">
+							<!-- Separator -->
+							<ui:if test="(:i igt 0)">
+								<cell rows="5">
+									<vsep pad.h="2" bg.color="bg" hreduce="true"/>
 								</cell>
-								<vbox fill="false">
-									<knob id="tempo${i}"/>
-									<value id="tempo${i}" width="45" detailed="false" precision="2"/>
+							</ui:if>
+
+							<!-- BPM device -->
+							<cell cols="2">
+								<label text="${i}" pad.t="4"/>
+							</cell>
+							<cell cols="2" pad.h="6" pad.v="4">
+								<ttap id="tempo${i}" text="actions.tap" height="32" hfill="true"/>
+							</cell>
+							<vbox fill="false">
+								<knob id="tempo${i}"/>
+								<value id="tempo${i}" width="45" detailed="false" precision="2"/>
+							</vbox>
+
+							<cell cols="2">
+								<vbox pad.h="6">
+									<indicator id="atempo${i}" format="f6.2!" tcolor="green" bg.color="ind_col"/>
 								</vbox>
+							</cell>
+							<cell cols="2">
+								<align halign="1" pad.b="4" pad.t="2" pad.r="6">
+									<label color="green" text="units.bpm"/>
+								</align>
+							</cell>
+							<vbox fill="true" pad.r="6" pad.b="4">
+								<combo id="ratio${i}" hfill="true" pad.b="4"/>
+								<button id="sync${i}" ui:inject="Button_yellow_8" height="19" hfill="true" text="labels.sync"/>
 
-								<cell cols="2">
-									<vbox pad.h="6">
-										<indicator id="atempo${i}" format="f6.2!" tcolor="green" bg.color="ind_col"/>
+							</vbox>
+						</ui:for>
+					</grid>
+				</group>
+			</vbox>
+
+			<!-- Master channel -->
+				<group text="groups.chan.master" ipadding="0">
+					<grid rows="11" cols="3" bg.color="bg_schema">
+						<!-- Feedback -->
+						<ui:with bg.bright="(:fb ine 0) ? 1.0 : :const_bg_darken" bright="(:fb ine 0) ? 1.0 : 0.75">
+							<cell cols="3">
+								<hbox hfill="false" pad.v="4" pad.h="6">
+									<knob id="fbg" scolor="(:fb ine 0) ? 'cyan' : 'cyan_inactive'"/>
+									<vbox vfill="false" pad.l="6" wmin="48">
+										<label text="labels.feedback"/>
+										<value id="fbg" sline="true"/>
 									</vbox>
-								</cell>
-								<cell cols="2">
-									<align halign="1" pad.b="4" pad.t="2" pad.r="6">
-										<label color="green" text="units.bpm"/>
-									</align>
-								</cell>
-								<vbox fill="true" pad.r="6" pad.b="4">
-									<combo id="ratio${i}" hfill="true" pad.b="4"/>
-									<button id="sync${i}" ui:inject="Button_yellow_8" height="19" hfill="true" text="labels.sync"/>
-
+								</hbox>
+							</cell>
+						</ui:with>
+						<!-- Separator -->
+						<cell cols="3"><hsep pad.v="2" vreduce="true" bg.color="bg"/></cell>
+						<!-- Output -->
+						<cell cols="3">
+							<hbox hfill="false" pad.v="4" pad.h="6">
+								<knob id="g_out"/>
+								<vbox vfill="false" pad.l="6" wmin="48">
+									<label text="labels.output"/>
+									<value id="g_out" sline="true"/>
 								</vbox>
-							</ui:for>
-						</grid>
-					</group>
-				</vbox>
+							</hbox>
+						</cell>
+						<!-- Separator -->
+						<cell cols="3"><hsep pad.v="2" vreduce="true" bg.color="bg"/></cell>
+						<!-- Dry Pan -->
+						<cell cols="3">
+							<hbox hfill="false" pad.v="4" pad.h="6">
+								<knob id="p_in" balance="0" scolor="balance"/>
+								<vbox vfill="false" pad.l="6" wmin="48">
+									<label text="labels.signal.dry_pan"/>
+									<value id="p_in" sline="true"/>
+								</vbox>
+							</hbox>
+						</cell>
+						<!-- Separator -->
+						<cell cols="3"><hsep pad.v="2" vreduce="true" bg.color="bg"/></cell>
+						<!-- Dry Wet -->
+						<button id="dry_on" pad.v="6" width.min="34" fill="false" height="10" text="labels.signal.dry" ui:inject="Button_yellow_6" bg.bright="(:dry_on ine 0) ? 1.0 : :const_bg_darken" bright="(:dry_on ine 0) ? 1.0 : 0.75"/>
+						<cell rows="3">
+							<vsep pad.h="2" hreduce="true" bg.color="bg"/>
+						</cell>
+						<button id="wet_on" pad.v="6" width.min="34" fill="false" height="10" text="labels.signal.wet" ui:inject="Button_blue_6" bg.bright="(:wet_on ine 0) ? 1.0 : :const_bg_darken" bright="(:wet_on ine 0) ? 1.0 : 0.75"/>
+						<knob id="dry" pad.h="6" scolor="(:dry_on ine 0) ? 'dry' : 'dry_inactive'" bg.bright="(:dry_on ine 0) ? 1.0 : :const_bg_darken"/>
+						<knob id="wet" pad.h="6" scolor="(:wet_on ine 0) ? 'wet' : 'wet_inactive'" bg.bright="(:wet_on ine 0) ? 1.0 : :const_bg_darken"/>
+						<value id="dry" bg.bright="(:dry_on ine 0) ? 1.0 : :const_bg_darken" bright="(:dry_on ine 0) ? 1.0 : 0.75"/>
+						<value id="wet" bg.bright="(:wet_on ine 0) ? 1.0 : :const_bg_darken" bright="(:wet_on ine 0) ? 1.0 : 0.75"/>
+						<!-- Separator -->
+						<cell cols="3"><hsep pad.v="2" vreduce="true" bg.color="bg"/></cell>
+						<!-- Dry/Wet -->
+						<cell cols="3">
+							<hbox hfill="false" pad.v="4" pad.h="6">
+								<knob id="drywet" scolor="drywet"/>
+								<vbox vfill="false" pad.l="6" wmin="48">
+									<label text="labels.signal.drywet"/>
+									<value id="drywet" sline="true"/>
+								</vbox>
+							</hbox>
+						</cell>
+					</grid>
+				</group>
+		</hbox>
 
-				<!-- Master channel -->
-				<vbox spacing="4">
-					<group text="groups.chan.master" ipadding="0">
-						<grid rows="12" cols="3">
+		<!-- Delay lines -->
+		<cgroup id="lsel">
 
-							<ui:with bg.bright="(:fb ine 0) ? 1.0 : :const_bg_darken">
-								<cell cols="3">
+			<ui:for id="i" first="0" last="15">
+				<vbox>
+					<grid rows="4" cols="3">
+						<!-- r1 -->
+						<!-- Delay line -->
+						<cell cols="3">
+							<align halign="1">
+								<label text="labels.delay_time_formula" pad.h="6" pad.v="4"/>
+							</align>
+						</cell>
+						<!-- r2 -->
+						<cell cols="3">
+							<hsep color="gray" bg.color="bg" pad.v="2" vreduce="true"/>
+						</cell>
 
-									<label text="labels.feedback" bright="(:fb ine 0) ? 1.0 : 0.75"/>
+						<!-- r3 -->
+						<void expand="true"/>
+						<void bg.color="bg" width="4" hreduce="true"/>
 
-								</cell>
+						<!-- Delay formula -->
+						<grid rows="7" cols="19" hspacing="6" pad.v="4">
+							<!-- Row 1 -->
+							<cell cols="5">
+								<label text="labels.delay_reference"/>
+							</cell>
+							<void/>
+							<cell cols="9">
+								<label text="labels.tempo_based_delay"/>
+							</cell>
+							<void/>
+							<label text="labels.delay"/>
+							<void/>
+							<label text="labels.result"/>
 
-								<knob id="fbg" scolor="(:fb ine 0) ? 'cyan' : 'cyan_inactive'"/>
-								<void width="4" hreduce="true"/>
-								<value id="fbg" bright="(:fb ine 0) ? 1.0 : 0.75"/>
+							<!-- Row 2 -->
+							<label text="[" font.size="22" pad.l="6"/>
+							<vbox>
+								<value id="dval${i}" visibility="!:loop${i}" font.size="22" sline="true"/>
+								<value id="dval${i}" color="red" visibility=":loop${i}" font.size="22" sline="true"/>
+							</vbox>
+							<label text="x" font.size="22"/>
+							<value id="drefm${i}" width="55" font.size="22" sline="true"/>
+							<label text="]" font.size="22"/>
+							<label text="+" font.size="22"/>
+							<label text="[" font.size="22"/>
+							<value id="tval${i}" precision="2" width="130" font.size="22" sline="true"/>
+							<label text=":" font.size="22"/>
+							<value id="treff${i}" read_only="true" precision="3" width="75" font.size="22" sline="true" detailed="false"/>
+							<label text="x" font.size="22"/>
+							<value id="trefm${i}" width="55" font.size="22" sline="true"/>
+							<label text="+" font.size="22"/>
+							<value id="frac${i}" read_only="true" precision="3" width="75" font.size="22" sline="true" detailed="false"/>
+							<label text="]" font.size="22"/>
+							<label text="+" font.size="22"/>
+							<value id="dadd${i}" width="110" precision="3" font.size="22" sline="true"/>
+							<label text="=" font.size="22"/>
+							<vbox fill="false">
+								<value id="adt${i}" width="110" precision="3" color="green" visibility="!:door${i}" font.size="22" sline="true"/>
+								<value id="adt${i}" width="110" precision="3" color="red" visibility=":door${i}" font.size="22" sline="true"/>
+							</vbox>
+
+							<!-- Row 3 -->
+							<ui:with pad.b="4">
+								<void/>
+								<combo id="dref${i}" fill="false" width="80"/>
+								<void/>
+								<knob id="drefm${i}" size="16" ssize="3" scale.color.hue=":hue${i}"/>
+								<void/>
+								<void/>
+								<void/>
+								<combo id="tref${i}" fill="false" width="64"/>
+								<void/>
+								<frac id="treff${i}" id2="trefd${i}" color="green"/>
+								<void/>
+								<knob id="trefm${i}" size="16" ssize="3" scale.color.hue=":hue${i}"/>
+								<void/>
+								<frac id="frac${i}" id2="den${i}" color="green"/>
+								<void/>
+								<void/>
+								<knob id="dadd${i}" size="16" ssize="3" scale.color.hue=":hue${i}"/>
+								<void/>
+								<void/>
 							</ui:with>
 
-							<cell cols="3"><hsep pad.v="2" vreduce="true" bg.color="bg"/></cell>
-
-							<cell cols="3">
-								<label text="labels.output"/>
-							</cell>
-
-							<knob id="g_out" balance="0"/>
-							<void width="4" hreduce="true"/>
-							<value id="g_out"/>
-
-							<cell cols="3">
-								<hsep pad.v="2" vreduce="true" bg.color="bg"/>
-							</cell>
-
-							<cell cols="3">
-								<label text="labels.signal.dry_pan"/>
-							</cell>
-
-							<knob id="p_in" balance="0" scolor="balance" pad.h="6"/>
-							<void width="4" hreduce="true"/>
-							<value id="p_in"/>
-
-							<cell cols="3">
-								<hsep pad.v="2" vreduce="true" bg.color="bg"/>
-							</cell>
-
-							<button id="dry_on" pad.v="6" width.min="34" fill="false" height="10" text="labels.signal.dry" ui:inject="Button_yellow_6" bg.bright="(:dry_on ine 0) ? 1.0 : :const_bg_darken" bright="(:dry_on ine 0) ? 1.0 : 0.75"/>
-
-							<cell rows="3">
-								<vsep pad.h="2" hreduce="true" bg.color="bg"/>
-							</cell>
-
-							<button id="wet_on" pad.v="6" width.min="34" fill="false" height="10" text="labels.signal.wet" ui:inject="Button_blue_6" bg.bright="(:wet_on ine 0) ? 1.0 : :const_bg_darken" bright="(:wet_on ine 0) ? 1.0 : 0.75"/>
-
-							<knob id="dry" pad.h="6" scolor="(:dry_on ine 0) ? 'dry' : 'dry_inactive'" bg.bright="(:dry_on ine 0) ? 1.0 : :const_bg_darken"/>
-							<knob id="wet" pad.h="6" scolor="(:wet_on ine 0) ? 'wet' : 'wet_inactive'" bg.bright="(:wet_on ine 0) ? 1.0 : :const_bg_darken"/>
-
-							<value id="dry" bg.bright="(:dry_on ine 0) ? 1.0 : :const_bg_darken" bright="(:dry_on ine 0) ? 1.0 : 0.75"/>
-							<value id="wet" bg.bright="(:wet_on ine 0) ? 1.0 : :const_bg_darken" bright="(:wet_on ine 0) ? 1.0 : 0.75"/>
-
-						</grid>
-					</group>
-				</vbox>
-			</hbox>
-
-			<!-- Delay lines -->
-			<cgroup id="lsel">
-
-				<ui:for id="i" first="0" last="15">
-					<vbox>
-						<grid rows="4" cols="3">
-							<!-- r1 -->
-							<!-- Delay line -->
-							<cell cols="3">
-								<align halign="1">
-									<label text="labels.delay_time_formula" pad.h="6" pad.v="4"/>
-								</align>
-							</cell>
-							<!-- r2 -->
-							<cell cols="3">
+							<!-- Row 4 -->
+							<cell cols="19">
 								<hsep color="gray" bg.color="bg" pad.v="2" vreduce="true"/>
 							</cell>
 
-							<!-- r3 -->
-							<void expand="true"/>
-							<void bg.color="bg" width="4" hreduce="true"/>
+							<!-- Row 5 -->
+							<cell cols="6" rows="3">
+								<align halign="0" valign="0">
+									<vbox width="245" fill="false" pad.l="6">
+										<align halign="0" visibility="!(:loop${i} or :door${i} or :fbor${i})">
+											<label text="labels.warning.all_values_good" color="green"/>
+										</align>
+										<align halign="0" visibility=":loop${i}">
+											<label text="labels.warning.loop_in_delay" color="red"/>
+										</align>
+										<align halign="0" visibility=":fbor${i}">
+											<label text="labels.warning.feedback_out_of_range" color="red"/>
+										</align>
+										<align halign="0" visibility=":door${i}">
+											<label text="labels.warning.delay_out_of_range" color="red"/>
+										</align>
+									</vbox>
+								</align>
+							</cell>
+							<cell cols="9">
+								<label text="labels.tempo_based_feedback_delay" pad.t="4"/>
+							</cell>
+							<void/>
+							<label text="labels.delay" pad.t="4"/>
+							<void/>
+							<label text="labels.feedback" pad.t="4"/>
 
-							<!-- Delay formula -->
-							<grid rows="7" cols="19" hspacing="6" pad.v="4">
-								<!-- Row 1 -->
-								<cell cols="5">
-									<label text="labels.delay_reference"/>
-								</cell>
-								<void/>
-								<cell cols="9">
-									<label text="labels.tempo_based_delay"/>
-								</cell>
-								<void/>
-								<label text="labels.delay"/>
-								<void/>
-								<label text="labels.result"/>
+							<!-- Row 6 -->
 
-								<!-- Row 2 -->
-								<label text="[" font.size="22" pad.l="6"/>
-								<vbox>
-									<value id="dval${i}" visibility="!:loop${i}" font.size="22" sline="true"/>
-									<value id="dval${i}" color="red" visibility=":loop${i}" font.size="22" sline="true"/>
-								</vbox>
-								<label text="x" font.size="22"/>
-								<value id="drefm${i}" width="55" font.size="22" sline="true"/>
-								<label text="]" font.size="22"/>
-								<label text="+" font.size="22"/>
-								<label text="[" font.size="22"/>
-								<value id="tval${i}" precision="2" width="130" font.size="22" sline="true"/>
-								<label text=":" font.size="22"/>
-								<value id="treff${i}" read_only="true" precision="3" width="75" font.size="22" sline="true" detailed="false"/>
-								<label text="x" font.size="22"/>
-								<value id="trefm${i}" width="55" font.size="22" sline="true"/>
-								<label text="+" font.size="22"/>
-								<value id="frac${i}" read_only="true" precision="3" width="75" font.size="22" sline="true" detailed="false"/>
-								<label text="]" font.size="22"/>
-								<label text="+" font.size="22"/>
-								<value id="dadd${i}" width="110" precision="3" font.size="22" sline="true"/>
-								<label text="=" font.size="22"/>
-								<vbox fill="false">
-									<value id="adt${i}" width="110" precision="3" color="green" visibility="!:door${i}" font.size="22" sline="true"/>
-									<value id="adt${i}" width="110" precision="3" color="red" visibility=":door${i}" font.size="22" sline="true"/>
-								</vbox>
+							<label text="[" font.size="22"/>
+							<value id="fbtv${i}" precision="2" width="130" font.size="22" sline="true"/>
+							<label text=":" font.size="22"/>
+							<value id="fbbf${i}" read_only="true" precision="3" width="75" font.size="22" sline="true" detailed="false"/>
+							<label text="x" font.size="22"/>
+							<value id="fbbm${i}" width="55" font.size="22" sline="true"/>
+							<label text="+" font.size="22"/>
+							<value id="fbf${i}" read_only="true" precision="3" width="75" font.size="22" sline="true" detailed="false"/>
+							<label text="]" font.size="22"/>
+							<label text="+" font.size="22"/>
+							<value id="fbadd${i}" width="110" precision="3" font.size="22" sline="true"/>
 
-								<!-- Row 3 -->
-								<ui:with pad.b="4">
-									<void/>
-									<combo id="dref${i}" fill="false" width="80"/>
-									<void/>
-									<knob id="drefm${i}" size="16" ssize="3" scale.color.hue=":hue${i}"/>
-									<void/>
-									<void/>
-									<void/>
-									<combo id="tref${i}" fill="false" width="64"/>
-									<void/>
-									<frac id="treff${i}" id2="trefd${i}" color="green"/>
-									<void/>
-									<knob id="trefm${i}" size="16" ssize="3" scale.color.hue=":hue${i}"/>
-									<void/>
-									<frac id="frac${i}" id2="den${i}" color="green"/>
-									<void/>
-									<void/>
-									<knob id="dadd${i}" size="16" ssize="3" scale.color.hue=":hue${i}"/>
-									<void/>
-									<void/>
-								</ui:with>
+							<label text="=" font.size="22"/>
 
-								<!-- Row 4 -->
-								<cell cols="19">
-									<hsep color="gray" bg.color="bg" pad.v="2" vreduce="true"/>
-								</cell>
+							<vbox fill="false">
+								<value id="afbt${i}" width="110" precision="3" color="green" visibility="!:fbor${i}" font.size="22" sline="true"/>
+								<value id="afbt${i}" width="110" precision="3" color="red" visibility=":fbor${i}" font.size="22" sline="true"/>
+							</vbox>
 
-								<!-- Row 5 -->
-								<cell cols="6" rows="3">
-									<align halign="0" valign="0">
-										<vbox width="245" fill="false" pad.l="6">
-											<align halign="0" visibility="!(:loop${i} or :door${i} or :fbor${i})">
-												<label text="labels.warning.all_values_good" color="green"/>
-											</align>
-											<align halign="0" visibility=":loop${i}">
-												<label text="labels.warning.loop_in_delay" color="red"/>
-											</align>
-											<align halign="0" visibility=":fbor${i}">
-												<label text="labels.warning.feedback_out_of_range" color="red"/>
-											</align>
-											<align halign="0" visibility=":door${i}">
-												<label text="labels.warning.delay_out_of_range" color="red"/>
-											</align>
-										</vbox>
-									</align>
-								</cell>
-								<cell cols="9">
-									<label text="labels.tempo_based_feedback_delay" pad.t="4"/>
-								</cell>
-								<void/>
-								<label text="labels.delay" pad.t="4"/>
-								<void/>
-								<label text="labels.feedback" pad.t="4"/>
+							<!-- Row 7 -->
 
-								<!-- Row 6 -->
+							<void/>
+							<combo id="fbtr${i}" fill="false" width="64"/>
+							<void/>
+							<frac id="fbbf${i}" id2="fbbd${i}" color="green"/>
+							<void/>
+							<knob id="fbbm${i}" size="16" ssize="3" scale.color.hue=":hue${i}"/>
+							<void/>
+							<frac id="fbf${i}" id2="fbd${i}" color="green"/>
+							<void/>
+							<void/>
+							<knob id="fbadd${i}" size="16" ssize="3" scale.color.hue=":hue${i}"/>
+							<void/>
+							<void/>
 
-								<label text="[" font.size="22"/>
-								<value id="fbtv${i}" precision="2" width="130" font.size="22" sline="true"/>
-								<label text=":" font.size="22"/>
-								<value id="fbbf${i}" read_only="true" precision="3" width="75" font.size="22" sline="true" detailed="false"/>
-								<label text="x" font.size="22"/>
-								<value id="fbbm${i}" width="55" font.size="22" sline="true"/>
-								<label text="+" font.size="22"/>
-								<value id="fbf${i}" read_only="true" precision="3" width="75" font.size="22" sline="true" detailed="false"/>
-								<label text="]" font.size="22"/>
-								<label text="+" font.size="22"/>
-								<value id="fbadd${i}" width="110" precision="3" font.size="22" sline="true"/>
-
-								<label text="=" font.size="22"/>
-
-								<vbox fill="false">
-									<value id="afbt${i}" width="110" precision="3" color="green" visibility="!:fbor${i}" font.size="22" sline="true"/>
-									<value id="afbt${i}" width="110" precision="3" color="red" visibility=":fbor${i}" font.size="22" sline="true"/>
-								</vbox>
-
-								<!-- Row 7 -->
-
-								<void/>
-								<combo id="fbtr${i}" fill="false" width="64"/>
-								<void/>
-								<frac id="fbbf${i}" id2="fbbd${i}" color="green"/>
-								<void/>
-								<knob id="fbbm${i}" size="16" ssize="3" scale.color.hue=":hue${i}"/>
-								<void/>
-								<frac id="fbf${i}" id2="fbd${i}" color="green"/>
-								<void/>
-								<void/>
-								<knob id="fbadd${i}" size="16" ssize="3" scale.color.hue=":hue${i}"/>
-								<void/>
-								<void/>
-
-							</grid>
-
-							<!-- r4 -->
-							<!-- Separator -->
-							<cell cols="3"><void bg.color="bg" height="4" vreduce="true"/></cell>
 						</grid>
 
-						<group text="labels.delay_line_processing" ipadding="0">
-							<!-- Delay settings modifed -->
-							<grid rows="5" cols="18" transpose="true">
-								<!-- Buttons and Hue -->
-								<!-- Column 1 -->
-								<label text="labels.controls" pad.v="4" vreduce="true"/>
-								<cell rows="4">
-									<vbox pad.h="6">
-										<void expand="true"/>
-										<button
-											id="on${i}"
-											text="labels.chan.on"
-											ui:inject="Button_Cycle_8"
-											height="19"
-											pad.b="4"
-											hfill="true"
-											down.color.hue=":hue${i}"
-											down.hover.color.hue=":hue${i}"
-											text.down.color.hue=":hue${i}"
-											text.down.hover.color.hue=":hue${i}"
-											border.down.color.hue=":hue${i}"
-											border.down.hover.color.hue=":hue${i}"/>
+						<!-- r4 -->
+						<!-- Separator -->
+						<cell cols="3"><void bg.color="bg" height="4" vreduce="true"/></cell>
+					</grid>
 
-										<button id="s${i}" text="labels.chan.solo" pad.b="4" ui:inject="Button_green_8" height="19" hfill="true"/>
-										<button id="m${i}" text="labels.chan.mute" ui:inject="Button_red_8" height="19" hfill="true" pad.b="4"/>
+					<group text="labels.delay_line_processing" ipadding="0">
+						<!-- Delay settings modifed -->
+						<grid rows="5" cols="18" transpose="true">
+							<!-- Buttons and Hue -->
+							<!-- Column 1 -->
+							<label text="labels.controls" pad.v="4" vreduce="true"/>
+							<cell rows="4">
+								<vbox pad.h="6">
+									<void expand="true"/>
+									<button
+										id="on${i}"
+										text="labels.chan.on"
+										ui:inject="Button_Cycle_8"
+										height="19"
+										pad.b="4"
+										hfill="true"
+										down.color.hue=":hue${i}"
+										down.hover.color.hue=":hue${i}"
+										text.down.color.hue=":hue${i}"
+										text.down.hover.color.hue=":hue${i}"
+										border.down.color.hue=":hue${i}"
+										border.down.hover.color.hue=":hue${i}"/>
 
+									<button id="s${i}" text="labels.chan.solo" pad.b="4" ui:inject="Button_green_8" height="19" hfill="true"/>
+									<button id="m${i}" text="labels.chan.mute" ui:inject="Button_red_8" height="19" hfill="true" pad.b="4"/>
+
+								</vbox>
+							</cell>
+
+							<!-- Column 2 -->
+							<cell rows="5"><vsep pad.h="2" hreduce="true" bg.color="bg"/></cell>
+
+							<!-- Column 3 -->
+
+							<label text="labels.chan.hue"/>
+							<cell rows="3"><knob id="hue${i}" size="20" scale.color.hue=":hue${i}"/></cell>
+							<value id="hue${i}" width="45" detailed="false" pad.b="4"/>
+
+							<!-- Column 4 -->
+							<cell rows="5"><vsep pad.h="2" hreduce="true" bg.color="bg"/></cell>
+
+							<!-- EQ -->
+							<!-- Column 5 -->
+							<cell cols="8">
+								<label text="labels.equalizer"/>
+							</cell>
+							<cell cols="8"><hsep pad.v="2" vreduce="true" bg.color="bg"/></cell>
+							<ui:with bg.bright="(:eq${i} ine 0) ? 1.0 : :const_bg_darken">
+								<label text="labels.filters" pad.v="4" vreduce="true"/>
+								<cell rows="2">
+									<vbox vfill="false" pad.h="6">
+										<button id="lc${i}" text="labels.flt.L_owC_ut" ui:inject="Button_magenta_6" height="15" hfill="true" pad.b="4"/>
+										<button id="eq${i}" text="labels.flt.EQ_ualizer" ui:inject="Button_green_6" height="15" hfill="true" pad.b="4"/>
+										<button id="hc${i}" text="labels.flt.H_ighC_ut" ui:inject="Button_violet_6" height="15" hfill="true" pad.b="4"/>
 									</vbox>
 								</cell>
 
-								<!-- Column 2 -->
-								<cell rows="5"><vsep pad.h="2" hreduce="true" bg.color="bg"/></cell>
-
-								<!-- Column 3 -->
-
-								<label text="labels.chan.hue"/>
-								<cell rows="3"><knob id="hue${i}" size="20" scale.color.hue=":hue${i}"/></cell>
-								<value id="hue${i}" width="45" detailed="false" pad.b="4"/>
-
-								<!-- Column 4 -->
-								<cell rows="5"><vsep pad.h="2" hreduce="true" bg.color="bg"/></cell>
-
-								<!-- EQ -->
-								<!-- Column 5 -->
-								<cell cols="8">
-									<label text="labels.equalizer"/>
-								</cell>
-								<cell cols="8"><hsep pad.v="2" vreduce="true" bg.color="bg"/></cell>
-								<ui:with bg.bright="(:eq${i} ine 0) ? 1.0 : :const_bg_darken">
-									<label text="labels.filters" pad.v="4" vreduce="true"/>
-									<cell rows="2">
-										<vbox vfill="false" pad.h="6">
-											<button id="lc${i}" text="labels.flt.L_owC_ut" ui:inject="Button_magenta_6" height="15" hfill="true" pad.b="4"/>
-											<button id="eq${i}" text="labels.flt.EQ_ualizer" ui:inject="Button_green_6" height="15" hfill="true" pad.b="4"/>
-											<button id="hc${i}" text="labels.flt.H_ighC_ut" ui:inject="Button_violet_6" height="15" hfill="true" pad.b="4"/>
-										</vbox>
-									</cell>
-
-									<!-- Column 6 -->
-									<ui:with bg.bright="(:eq${i} ine 0 and :lc${i} ine 0) ? 1.0 : :const_bg_darken">
-									<label text="labels.flt.low_cut" bright="(:eq${i} ine 0 and :lc${i} ine 0) ? 1.0 : 0.75"/>
-									<knob id="flc${i}" size="20" scolor="(:eq${i} ine 0 and :lc${i} ine 0) ? 'magenta' : 'magenta_inactive'"/>
-									<value id="flc${i}" width="62" sline="true" bright="(:eq${i} ine 0 and :lc${i} ine 0) ? 1.0 : 0.75"/>
-								</ui:with>
-
-									<!-- Column 7 -->
-									<label text="labels.flt.subs" bright="(:eq${i} ine 0) ? 1.0 : 0.75"/>
-									<knob id="fbs${i}" size="20" scolor="(:eq${i} ine 0) ? 'green' : 'green_inactive'" balance="0 db"/>
-									<value id="fbs${i}" width="62" sline="true" bright="(:eq${i} ine 0) ? 1.0 : 0.75"/>
-
-									<!-- Column 8 -->
-									<label text="labels.flt.bass" bright="(:eq${i} ine 0) ? 1.0 : 0.75"/>
-									<knob id="fbb${i}" size="20" scolor="(:eq${i} ine 0) ? 'green' : 'green_inactive'" balance="0 db"/>
-									<value id="fbb${i}" width="62" sline="true" bright="(:eq${i} ine 0) ? 1.0 : 0.75"/>
-
-									<!-- Column 9 -->
-									<label text="labels.flt.middle" bright="(:eq${i} ine 0) ? 1.0 : 0.75"/>
-									<knob id="fbm${i}" size="20" scolor="(:eq${i} ine 0) ? 'green' : 'green_inactive'" balance="0 db"/>
-									<value id="fbm${i}" width="62" sline="true" bright="(:eq${i} ine 0) ? 1.0 : 0.75"/>
-
-									<!-- Column 10 -->
-									<label text="labels.flt.presence" bright="(:eq${i} ine 0) ? 1.0 : 0.75"/>
-									<knob id="fbp${i}" size="20" scolor="(:eq${i} ine 0) ? 'green' : 'green_inactive'" balance="0 db"/>
-									<value id="fbp${i}" width="62" sline="true" bright="(:eq${i} ine 0) ? 1.0 : 0.75"/>
-
-									<!-- Column 11 -->
-									<label text="labels.flt.treble" bright="(:eq${i} ine 0) ? 1.0 : 0.75"/>
-									<knob id="fbt${i}" size="20" scolor="(:eq${i} ine 0) ? 'green' : 'green_inactive'" balance="0 db"/>
-									<value id="fbt${i}" width="62" sline="true" bright="(:eq${i} ine 0) ? 1.0 : 0.75"/>
-
-									<!-- Column 12 -->
-									<ui:with bg.bright="(:eq${i} ine 0 and :hc${i} ine 0) ? 1.0 : :const_bg_darken">
-									<label text="labels.flt.high_cut" bright="(:eq${i} ine 0 and :hc${i} ine 0) ? 1.0 : 0.75"/>
-									<knob id="fhc${i}" size="20" scolor="(:eq${i} ine 0 and :hc${i} ine 0) ? 'violet' : 'violet_inactive'"/>
-									<value id="fhc${i}" width="62" sline="true" bright="(:eq${i} ine 0 and :hc${i} ine 0) ? 1.0 : 0.75"/>
-								</ui:with>
-								</ui:with>
-
-								<!-- Column 13 -->
-								<cell rows="5"><vsep pad.h="2" hreduce="true" bg.color="bg"/></cell>
-
-								<!-- Column 14 -->
-								<ui:with bg.bright="(:fbe${i} ine 0 and :fb ine 0) ? 1.0 : :const_bg_darken">
-								<label text="labels.feedback" bright="(:fbe${i} ine 0 and :fb ine 0) ? 1.0 : 0.75"/>
-								<cell rows="2" pad.h="6">
-									<button id="fbe${i}" text="labels.chan.on" ui:inject="Button_cyan_8" height="15" hfill="true"/>
-								</cell>
-								<knob id="fbg${i}" scolor="(:fbe${i} ine 0 and :fb ine 0) ? 'kscale' : 'kscale_inactive'"/>
-								<value id="fbg${i}" sline="true" bright="(:fbe${i} ine 0 and :fb ine 0) ? 1.0 : 0.75"/>
+								<!-- Column 6 -->
+								<ui:with bg.bright="(:eq${i} ine 0 and :lc${i} ine 0) ? 1.0 : :const_bg_darken">
+								<label text="labels.flt.low_cut" bright="(:eq${i} ine 0 and :lc${i} ine 0) ? 1.0 : 0.75"/>
+								<knob id="flc${i}" size="20" scolor="(:eq${i} ine 0 and :lc${i} ine 0) ? 'magenta' : 'magenta_inactive'"/>
+								<value id="flc${i}" width="62" sline="true" bright="(:eq${i} ine 0 and :lc${i} ine 0) ? 1.0 : 0.75"/>
 							</ui:with>
 
-								<!-- Column 15 -->
-								<cell rows="5"><vsep pad.h="2" hreduce="true" bg.color="bg"/></cell>
+								<!-- Column 7 -->
+								<label text="labels.flt.subs" bright="(:eq${i} ine 0) ? 1.0 : 0.75"/>
+								<knob id="fbs${i}" size="20" scolor="(:eq${i} ine 0) ? 'green' : 'green_inactive'" balance="0 db"/>
+								<value id="fbs${i}" width="62" sline="true" bright="(:eq${i} ine 0) ? 1.0 : 0.75"/>
 
-								<!-- Column 16 -->
-								<label text="labels.panorama"/>
-								<cell rows="3"><knob id="p${i}" size="24" balance="0" scolor="balance"/></cell>
-								<value id="p${i}" width="49" sline="true"/>
+								<!-- Column 8 -->
+								<label text="labels.flt.bass" bright="(:eq${i} ine 0) ? 1.0 : 0.75"/>
+								<knob id="fbb${i}" size="20" scolor="(:eq${i} ine 0) ? 'green' : 'green_inactive'" balance="0 db"/>
+								<value id="fbb${i}" width="62" sline="true" bright="(:eq${i} ine 0) ? 1.0 : 0.75"/>
 
-								<!-- Column 17 -->
-								<cell rows="5"><vsep pad.h="2" hreduce="true" bg.color="bg"/></cell>
+								<!-- Column 9 -->
+								<label text="labels.flt.middle" bright="(:eq${i} ine 0) ? 1.0 : 0.75"/>
+								<knob id="fbm${i}" size="20" scolor="(:eq${i} ine 0) ? 'green' : 'green_inactive'" balance="0 db"/>
+								<value id="fbm${i}" width="62" sline="true" bright="(:eq${i} ine 0) ? 1.0 : 0.75"/>
 
-								<!-- Column 18 -->
-								<label text="labels.gain"/>
-								<cell rows="3"><knob id="dg${i}" size="24" scale.color.hue=":hue${i}"/></cell>
-								<value id="dg${i}" width="62" sline="true"/>
+								<!-- Column 10 -->
+								<label text="labels.flt.presence" bright="(:eq${i} ine 0) ? 1.0 : 0.75"/>
+								<knob id="fbp${i}" size="20" scolor="(:eq${i} ine 0) ? 'green' : 'green_inactive'" balance="0 db"/>
+								<value id="fbp${i}" width="62" sline="true" bright="(:eq${i} ine 0) ? 1.0 : 0.75"/>
 
-							</grid>
-						</group>
-					</vbox>
-				</ui:for>
-			</cgroup>
-		</vbox>
+								<!-- Column 11 -->
+								<label text="labels.flt.treble" bright="(:eq${i} ine 0) ? 1.0 : 0.75"/>
+								<knob id="fbt${i}" size="20" scolor="(:eq${i} ine 0) ? 'green' : 'green_inactive'" balance="0 db"/>
+								<value id="fbt${i}" width="62" sline="true" bright="(:eq${i} ine 0) ? 1.0 : 0.75"/>
+
+								<!-- Column 12 -->
+								<ui:with bg.bright="(:eq${i} ine 0 and :hc${i} ine 0) ? 1.0 : :const_bg_darken">
+								<label text="labels.flt.high_cut" bright="(:eq${i} ine 0 and :hc${i} ine 0) ? 1.0 : 0.75"/>
+								<knob id="fhc${i}" size="20" scolor="(:eq${i} ine 0 and :hc${i} ine 0) ? 'violet' : 'violet_inactive'"/>
+								<value id="fhc${i}" width="62" sline="true" bright="(:eq${i} ine 0 and :hc${i} ine 0) ? 1.0 : 0.75"/>
+							</ui:with>
+							</ui:with>
+
+							<!-- Column 13 -->
+							<cell rows="5"><vsep pad.h="2" hreduce="true" bg.color="bg"/></cell>
+
+							<!-- Column 14 -->
+							<ui:with bg.bright="(:fbe${i} ine 0 and :fb ine 0) ? 1.0 : :const_bg_darken">
+							<label text="labels.feedback" bright="(:fbe${i} ine 0 and :fb ine 0) ? 1.0 : 0.75"/>
+							<cell rows="2" pad.h="6">
+								<button id="fbe${i}" text="labels.chan.on" ui:inject="Button_cyan_8" height="15" hfill="true"/>
+							</cell>
+							<knob id="fbg${i}" scolor="(:fbe${i} ine 0 and :fb ine 0) ? 'kscale' : 'kscale_inactive'"/>
+							<value id="fbg${i}" sline="true" bright="(:fbe${i} ine 0 and :fb ine 0) ? 1.0 : 0.75"/>
+						</ui:with>
+
+							<!-- Column 15 -->
+							<cell rows="5"><vsep pad.h="2" hreduce="true" bg.color="bg"/></cell>
+
+							<!-- Column 16 -->
+							<label text="labels.panorama"/>
+							<cell rows="3"><knob id="p${i}" size="24" balance="0" scolor="balance"/></cell>
+							<value id="p${i}" width="49" sline="true"/>
+
+							<!-- Column 17 -->
+							<cell rows="5"><vsep pad.h="2" hreduce="true" bg.color="bg"/></cell>
+
+							<!-- Column 18 -->
+							<label text="labels.gain"/>
+							<cell rows="3"><knob id="dg${i}" size="24" scale.color.hue=":hue${i}"/></cell>
+							<value id="dg${i}" width="62" sline="true"/>
+
+						</grid>
+					</group>
+				</vbox>
+			</ui:for>
+		</cgroup>
+	</vbox>
 </plugin>

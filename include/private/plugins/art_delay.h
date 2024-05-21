@@ -1,6 +1,6 @@
 /*
- * Copyright (C) 2023 Linux Studio Plugins Project <https://lsp-plug.in/>
- *           (C) 2023 Vladimir Sadovnikov <sadko4u@gmail.com>
+ * Copyright (C) 2025 Linux Studio Plugins Project <https://lsp-plug.in/>
+ *           (C) 2025 Vladimir Sadovnikov <sadko4u@gmail.com>
  *
  * This file is part of lsp-plugins-art-delay
  * Created on: 3 авг. 2021 г.
@@ -162,13 +162,13 @@ namespace lsp
                 size_t                      nMaxDelay;      // Maximum delay
                 pan_t                       sOldDryPan[2];  // Old panning + gain
                 pan_t                       sNewDryPan[2];  // New panning + gain
+                art_tempo_t                *vTempo;         // Tempo settings
+                art_delay_t                *vDelays;        // Delay lines
                 float                      *vOutBuf[2];     // Output buffer
                 float                      *vGainBuf;       // Gain control buffer
                 float                      *vDelayBuf;      // Delay control buffer
                 float                      *vFeedBuf;       // Feedback delay control buffer
                 float                      *vTempBuf;       // Temporary buffer for delay processing
-                art_tempo_t                *vTempo;         // Tempo settings
-                art_delay_t                *vDelays;        // Delay lines
                 volatile uint32_t           nMemUsed;       // Overall memory usage by delay lines
 
                 dspu::Bypass                sBypass[2];     // Bypasses
@@ -181,6 +181,7 @@ namespace lsp
                 plug::IPort                *pPan[2];        // Panning
                 plug::IPort                *pDryGain;       // Dry gain
                 plug::IPort                *pWetGain;       // Wet gain
+                plug::IPort                *pDryWet;        // Dry/Wet balance
                 plug::IPort                *pDryOn;         // Dry enable
                 plug::IPort                *pWetOn;         // Wet enable
                 plug::IPort                *pMono;          // Mono/Stereo switch
@@ -208,7 +209,12 @@ namespace lsp
 
             public:
                 explicit art_delay(const meta::plugin_t *metadata, bool stereo_in);
+                art_delay(const art_delay &) = delete;
+                art_delay(art_delay &&) = delete;
                 virtual ~art_delay() override;
+
+                art_delay & operator=(const art_delay &) = delete;
+                art_delay & operator=(art_delay &&) = delete;
 
                 virtual void        init(plug::IWrapper *wrapper, plug::IPort **ports) override;
                 virtual void        destroy() override;
