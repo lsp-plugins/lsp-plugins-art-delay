@@ -169,7 +169,7 @@ namespace lsp
                 float                      *vDelayBuf;      // Delay control buffer
                 float                      *vFeedBuf;       // Feedback delay control buffer
                 float                      *vTempBuf;       // Temporary buffer for delay processing
-                volatile uint32_t           nMemUsed;       // Overall memory usage by delay lines
+                mutable uint32_t            nMemUsed;       // Overall memory usage by delay lines
 
                 dspu::Bypass                sBypass[2];     // Bypasses
                 ipc::IExecutor             *pExecutor;

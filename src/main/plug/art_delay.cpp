@@ -171,7 +171,7 @@ namespace lsp
             vTempo          = NULL;
             vDelays         = NULL;
             pExecutor       = NULL;
-            nMemUsed        = 0;
+            atomic_store(&nMemUsed, 0);
 
             pIn[0]          = NULL;
             pIn[1]          = NULL;
@@ -1026,7 +1026,7 @@ namespace lsp
                 ad->sFeedOutRange.process(samples);
             }
 
-            float used = nMemUsed;
+            float used = atomic_load(&nMemUsed);
             pOutDMax->set_value(dspu::samples_to_seconds(fSampleRate, nMaxDelay));
             pOutMemUse->set_value((used / (1024.0f * 1024.0f)) * sizeof(float)); // Translate floats into megabytes
         }
@@ -1205,7 +1205,7 @@ namespace lsp
             v->write("vDelayBuf", vDelayBuf);
             v->write("vFeedBuf", vFeedBuf);
             v->write("vTempBuf", vTempBuf);
-            v->write("nMemUsed", nMemUsed);
+            v->write("nMemUsed", atomic_load(&nMemUsed));
 
             v->begin_array("sBypass", sBypass, 2);
             {
