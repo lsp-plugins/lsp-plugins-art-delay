@@ -25,7 +25,7 @@
 
 #define LSP_PLUGINS_ART_DELAY_VERSION_MAJOR       1
 #define LSP_PLUGINS_ART_DELAY_VERSION_MINOR       0
-#define LSP_PLUGINS_ART_DELAY_VERSION_MICRO       20
+#define LSP_PLUGINS_ART_DELAY_VERSION_MICRO       21
 
 #define LSP_PLUGINS_ART_DELAY_VERSION  \
     LSP_MODULE_VERSION( \
@@ -282,14 +282,17 @@ namespace lsp
             "KV16M",
             &developers::v_sadovnikov,
             "art_delay_mono",
-            LSP_LV2_URI("art_delay_mono"),
-            LSP_LV2UI_URI("art_delay_mono"),
-            "vxll",
-            LSP_VST3_UID("kv16m   vxll"),
-            LSP_VST3UI_UID("kv16m   vxll"),
-            LSP_LADSPA_ART_DELAY_BASE + 0,
-            LSP_LADSPA_URI("art_delay_mono"),
-            LSP_CLAP_URI("art_delay_mono"),
+            {
+                LSP_LV2_URI("art_delay_mono"),
+                LSP_LV2UI_URI("art_delay_mono"),
+                "vxll",
+                LSP_VST3_UID("kv16m   vxll"),
+                LSP_VST3UI_UID("kv16m   vxll"),
+                LSP_LADSPA_ART_DELAY_BASE + 0,
+                LSP_LADSPA_URI("art_delay_mono"),
+                LSP_CLAP_URI("art_delay_mono"),
+                LSP_GST_UID("art_delay_mono"),
+            },
             LSP_PLUGINS_ART_DELAY_VERSION,
             plugin_classes,
             clap_features_mono,
@@ -309,14 +312,17 @@ namespace lsp
             "KV16S",
             &developers::v_sadovnikov,
             "art_delay_stereo",
-            LSP_LV2_URI("art_delay_stereo"),
-            LSP_LV2UI_URI("art_delay_stereo"),
-            "kbbr",
-            LSP_VST3_UID("kv16s   kbbr"),
-            LSP_VST3UI_UID("kv16s   kbbr"),
-            LSP_LADSPA_ART_DELAY_BASE + 1,
-            LSP_LADSPA_URI("art_delay_stereo"),
-            LSP_CLAP_URI("art_delay_stereo"),
+            {
+                LSP_LV2_URI("art_delay_stereo"),
+                LSP_LV2UI_URI("art_delay_stereo"),
+                "kbbr",
+                LSP_VST3_UID("kv16s   kbbr"),
+                LSP_VST3UI_UID("kv16s   kbbr"),
+                LSP_LADSPA_ART_DELAY_BASE + 1,
+                LSP_LADSPA_URI("art_delay_stereo"),
+                LSP_CLAP_URI("art_delay_stereo"),
+                LSP_GST_UID("art_delay_stereo"),
+            },
             LSP_PLUGINS_ART_DELAY_VERSION,
             plugin_classes,
             clap_features_stereo,
