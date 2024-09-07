@@ -42,7 +42,7 @@
 								<ui:for id="i" first="0" last="15">
 									<marker value=":adt${i}" ox="0" oy="1" width="3" color="graph_marker_cycle" color.hue=":hue${i}" visibility=":on${i}"/>
 									<marker value=":adt${i} + :afbt${i}" ox="0" oy="1" width="1" color="graph_marker_cycle" color.hue=":hue${i}" color.a="0.4" visibility=":on${i} and :fbe${i} and :fb"/>
-									<text text="${i}" ox="0" oy="1" x=":adt${i}" y="1" halign="1" valign="-1" color="graph_marker_cycle" color.hue=":hue${i}" visibility=":on${i}"/>
+									<text text="${:i+1}" ox="0" oy="1" x=":adt${i}" y="1" halign="1" valign="-1" color="graph_marker_cycle" color.hue=":hue${i}" visibility=":on${i}"/>
 									<text id="adt${i}" text="labels.values.fmt_value" ox="0" oy="1" x=":adt${i}" y="-1" halign="1" valign="1" color="graph_marker_cycle" color.hue=":hue${i}" visibility=":on${i}"/>
 									<text id="afbt${i}" text="labels.values.fmt_value" ox="0" oy="1" x=":adt${i} + :afbt${i}" y="0" halign="1" valign="1" color="graph_marker_cycle" color.hue=":hue${i}" color.a="0.4" visibility=":on${i} and :fbe${i} and :fb"/>
 								</ui:for>
@@ -61,7 +61,7 @@
 									<vsep pad.h="2" bg.color="bg" hreduce="true"/>
 								</cell>
 							</ui:if>
-							<label text="${i}" pad.t="4"/>
+							<label text="${:i+1}" pad.t="4"/>
 
 							<button
 								id="on${i}"
@@ -99,7 +99,7 @@
 
 							<!-- BPM device -->
 							<cell cols="2">
-								<label text="${i}" pad.t="4"/>
+								<label text="${:i+1}" pad.t="4"/>
 							</cell>
 							<cell cols="2" pad.h="6" pad.v="4">
 								<ttap id="tempo${i}" text="actions.tap" height="32" hfill="true"/>
