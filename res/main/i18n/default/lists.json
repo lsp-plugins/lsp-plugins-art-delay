@@ -1,31 +1,31 @@
 {
 	"art_delay": {
-		"line_0": "Delay Line 0",
-		"line_1": "Delay Line 1",
-		"line_2": "Delay Line 2",
-		"line_3": "Delay Line 3",
-		"line_4": "Delay Line 4",
-		"line_5": "Delay Line 5",
-		"line_6": "Delay Line 6",
-		"line_7": "Delay Line 7",
-		"line_8": "Delay Line 8",
-		"line_9": "Delay Line 9",
-		"line_10": "Delay Line 10",
-		"line_11": "Delay Line 11",
-		"line_12": "Delay Line 12",
-		"line_13": "Delay Line 13",
-		"line_14": "Delay Line 14",
-		"line_15": "Delay Line 15",
-		
-		"tempo_0": "Tempo 0",
-		"tempo_1": "Tempo 1",
-		"tempo_2": "Tempo 2",
-		"tempo_3": "Tempo 3",
-		"tempo_4": "Tempo 4",
-		"tempo_5": "Tempo 5",
-		"tempo_6": "Tempo 6",
-		"tempo_7": "Tempo 7",
-		
+		"line_0": "Delay Line 1",
+		"line_1": "Delay Line 2",
+		"line_2": "Delay Line 3",
+		"line_3": "Delay Line 4",
+		"line_4": "Delay Line 5",
+		"line_5": "Delay Line 6",
+		"line_6": "Delay Line 7",
+		"line_7": "Delay Line 8",
+		"line_8": "Delay Line 9",
+		"line_9": "Delay Line 10",
+		"line_10": "Delay Line 11",
+		"line_11": "Delay Line 12",
+		"line_12": "Delay Line 13",
+		"line_13": "Delay Line 14",
+		"line_14": "Delay Line 15",
+		"line_15": "Delay Line 16",
+
+		"tempo_0": "Tempo 1",
+		"tempo_1": "Tempo 2",
+		"tempo_2": "Tempo 3",
+		"tempo_3": "Tempo 4",
+		"tempo_4": "Tempo 5",
+		"tempo_5": "Tempo 6",
+		"tempo_6": "Tempo 7",
+		"tempo_7": "Tempo 8",
+
 		"modes": {
 			"notes": "Notes",
 			"off": "Off",
@@ -34,4 +34,3 @@
 		"none" : "None"
 	}
 }
-
