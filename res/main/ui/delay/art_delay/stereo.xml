@@ -367,7 +367,7 @@
 
 					<group text="labels.delay_line_processing" ipadding="0">
 						<!-- Delay settings modifed -->
-						<grid rows="5" cols="19" transpose="true">
+						<grid rows="5" cols="20" transpose="true">
 							<!-- Buttons and Hue -->
 							<!-- Column 1 -->
 							<label text="labels.controls" pad.v="4" vreduce="true"/>
@@ -408,10 +408,10 @@
 
 							<!-- EQ -->
 							<!-- Column 5 -->
-							<cell cols="8">
+							<cell cols="9">
 								<label text="labels.equalizer"/>
 							</cell>
-							<cell cols="8"><hsep pad.v="2" vreduce="true" bg.color="bg"/></cell>
+							<cell cols="9"><hsep pad.v="2" vreduce="true" bg.color="bg"/></cell>
 
 							<label text="labels.filters" pad.v="4" vreduce="true"/>
 							
@@ -422,52 +422,55 @@
 									<button id="hc${i}" text="labels.flt.H_ighC_ut" ui:inject="Button_violet_6" height="15" hfill="true" pad.b="4"/>
 								</vbox>
 							</cell>
-
+							
 							<!-- Column 6 -->
+							<cell rows="3"><vsep pad.h="2" hreduce="true" bg.color="bg"/></cell>
+
+							<!-- Column 7 -->
 							<ui:with bg.bright="(:lc${i} ine 0) ? 1.0 : :const_bg_darken">
-								<label text="labels.flt.low_cut" bright="(:eq${i} ine 0 and :lc${i} ine 0) ? 1.0 : 0.75"/>
-								<knob id="flc${i}" size="20" scolor="(:eq${i} ine 0 and :lc${i} ine 0) ? 'magenta' : 'magenta_inactive'"/>
-								<value id="flc${i}" width="62" sline="true" bright="(:eq${i} ine 0 and :lc${i} ine 0) ? 1.0 : 0.75"/>
+								<label text="labels.flt.low_cut" bright="(:lc${i} ine 0) ? 1.0 : 0.75"/>
+								<knob id="flc${i}" size="20" scolor="(:lc${i} ine 0) ? 'magenta' : 'magenta_inactive'"/>
+								<value id="flc${i}" width="62" sline="true" bright="(:lc${i} ine 0) ? 1.0 : 0.75"/>
 							</ui:with>
 
 							<ui:with bg.bright="(:eq${i} ine 0) ? 1.0 : :const_bg_darken">
-								<!-- Column 7 -->
+								<!-- Column 8 -->
 								<label text="labels.flt.subs" bright="(:eq${i} ine 0) ? 1.0 : 0.75"/>
 								<knob id="fbs${i}" size="20" scolor="(:eq${i} ine 0) ? 'green' : 'green_inactive'" balance="0 db"/>
 								<value id="fbs${i}" width="62" sline="true" bright="(:eq${i} ine 0) ? 1.0 : 0.75"/>
 
-								<!-- Column 8 -->
+								<!-- Column 9 -->
 								<label text="labels.flt.bass" bright="(:eq${i} ine 0) ? 1.0 : 0.75"/>
 								<knob id="fbb${i}" size="20" scolor="(:eq${i} ine 0) ? 'green' : 'green_inactive'" balance="0 db"/>
 								<value id="fbb${i}" width="62" sline="true" bright="(:eq${i} ine 0) ? 1.0 : 0.75"/>
 
-								<!-- Column 9 -->
+								<!-- Column 10 -->
 								<label text="labels.flt.middle" bright="(:eq${i} ine 0) ? 1.0 : 0.75"/>
 								<knob id="fbm${i}" size="20" scolor="(:eq${i} ine 0) ? 'green' : 'green_inactive'" balance="0 db"/>
 								<value id="fbm${i}" width="62" sline="true" bright="(:eq${i} ine 0) ? 1.0 : 0.75"/>
 
-								<!-- Column 10 -->
+								<!-- Column 11 -->
 								<label text="labels.flt.presence" bright="(:eq${i} ine 0) ? 1.0 : 0.75"/>
 								<knob id="fbp${i}" size="20" scolor="(:eq${i} ine 0) ? 'green' : 'green_inactive'" balance="0 db"/>
 								<value id="fbp${i}" width="62" sline="true" bright="(:eq${i} ine 0) ? 1.0 : 0.75"/>
 
-								<!-- Column 11 -->
+								<!-- Column 12 -->
 								<label text="labels.flt.treble" bright="(:eq${i} ine 0) ? 1.0 : 0.75"/>
 								<knob id="fbt${i}" size="20" scolor="(:eq${i} ine 0) ? 'green' : 'green_inactive'" balance="0 db"/>
 								<value id="fbt${i}" width="62" sline="true" bright="(:eq${i} ine 0) ? 1.0 : 0.75"/>
 							</ui:with>
 
-							<!-- Column 12 -->
+							<!-- Column 13 -->
 							<ui:with bg.bright="(:hc${i} ine 0) ? 1.0 : :const_bg_darken">
-								<label text="labels.flt.high_cut" bright="(:eq${i} ine 0 and :hc${i} ine 0) ? 1.0 : 0.75"/>
-								<knob id="fhc${i}" size="20" scolor="(:eq${i} ine 0 and :hc${i} ine 0) ? 'violet' : 'violet_inactive'"/>
-								<value id="fhc${i}" width="62" sline="true" bright="(:eq${i} ine 0 and :hc${i} ine 0) ? 1.0 : 0.75"/>
+								<label text="labels.flt.high_cut" bright="(:hc${i} ine 0) ? 1.0 : 0.75"/>
+								<knob id="fhc${i}" size="20" scolor="(:hc${i} ine 0) ? 'violet' : 'violet_inactive'"/>
+								<value id="fhc${i}" width="62" sline="true" bright="(:hc${i} ine 0) ? 1.0 : 0.75"/>
 							</ui:with>
 
-							<!-- Column 13 -->
+							<!-- Column 14 -->
 							<cell rows="5"><vsep pad.h="2" hreduce="true" bg.color="bg"/></cell>
 
-							<!-- Column 14 -->
+							<!-- Column 15 -->
 							<ui:with bg.bright="(:fbe${i} ine 0 and :fb ine 0) ? 1.0 : :const_bg_darken">
 								<label text="labels.feedback" bright="(:fbe${i} ine 0 and :fb ine 0) ? 1.0 : 0.75"/>
 								<cell rows="2" pad.h="6">
@@ -477,25 +480,25 @@
 								<value id="fbg${i}" sline="true" bright="(:fbe${i} ine 0 and :fb ine 0) ? 1.0 : 0.75"/>
 							</ui:with>
 
-							<!-- Column 15 -->
+							<!-- Column 16 -->
 							<cell rows="5"><vsep pad.h="2" hreduce="true" bg.color="bg"/></cell>
 
-							<!-- Column 16 -->
+							<!-- Column 17 -->
 							<cell cols="2"><label text="labels.panorama"/></cell>
 							<cell cols="2"><hsep pad.v="2" vreduce="true" bg.color="bg"/></cell>
 							<label text="labels.chan.left"/>
 							<knob id="pl${i}" balance="0" scolor="left"/>
 							<value id="pl${i}" width="49" sline="true"/>
 
-							<!-- Column 17 -->
+							<!-- Column 18 -->
 							<label text="labels.chan.right"/>
 							<knob id="pr${i}" balance="0" scolor="right"/>
 							<value id="pr${i}" width="49" sline="true"/>
 
-							<!-- Column 18 -->
+							<!-- Column 19 -->
 							<cell rows="5"><vsep pad.h="2" hreduce="true" bg.color="bg"/></cell>
 
-							<!-- Column 19 -->
+							<!-- Column 20 -->
 							<label text="labels.gain"/>
 							<cell rows="3"><knob id="dg${i}" size="24" scale.color.hue=":hue${i}"/></cell>
 							<value id="dg${i}" width="62" sline="true"/>
