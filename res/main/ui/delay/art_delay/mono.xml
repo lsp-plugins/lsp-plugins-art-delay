@@ -406,23 +406,24 @@
 								<label text="labels.equalizer"/>
 							</cell>
 							<cell cols="8"><hsep pad.v="2" vreduce="true" bg.color="bg"/></cell>
-							<ui:with bg.bright="(:eq${i} ine 0) ? 1.0 : :const_bg_darken">
-								<label text="labels.filters" pad.v="4" vreduce="true"/>
-								<cell rows="2">
-									<vbox vfill="false" pad.h="6">
-										<button id="lc${i}" text="labels.flt.L_owC_ut" ui:inject="Button_magenta_6" height="15" hfill="true" pad.b="4"/>
-										<button id="eq${i}" text="labels.flt.EQ_ualizer" ui:inject="Button_green_6" height="15" hfill="true" pad.b="4"/>
-										<button id="hc${i}" text="labels.flt.H_ighC_ut" ui:inject="Button_violet_6" height="15" hfill="true" pad.b="4"/>
-									</vbox>
-								</cell>
 
-								<!-- Column 6 -->
-								<ui:with bg.bright="(:eq${i} ine 0 and :lc${i} ine 0) ? 1.0 : :const_bg_darken">
+							<label text="labels.filters" pad.v="4" vreduce="true"/>
+							<cell rows="2">
+								<vbox vfill="false" pad.h="6">
+									<button id="lc${i}" text="labels.flt.L_owC_ut" ui:inject="Button_magenta_6" height="15" hfill="true" pad.b="4"/>
+									<button id="eq${i}" text="labels.flt.EQ_ualizer" ui:inject="Button_green_6" height="15" hfill="true" pad.b="4"/>
+									<button id="hc${i}" text="labels.flt.H_ighC_ut" ui:inject="Button_violet_6" height="15" hfill="true" pad.b="4"/>
+								</vbox>
+							</cell>
+
+							<!-- Column 6 -->
+							<ui:with bg.bright="(:lc${i} ine 0) ? 1.0 : :const_bg_darken">
 								<label text="labels.flt.low_cut" bright="(:eq${i} ine 0 and :lc${i} ine 0) ? 1.0 : 0.75"/>
 								<knob id="flc${i}" size="20" scolor="(:eq${i} ine 0 and :lc${i} ine 0) ? 'magenta' : 'magenta_inactive'"/>
 								<value id="flc${i}" width="62" sline="true" bright="(:eq${i} ine 0 and :lc${i} ine 0) ? 1.0 : 0.75"/>
 							</ui:with>
 
+							<ui:with bg.bright="(:eq${i} ine 0) ? 1.0 : :const_bg_darken">
 								<!-- Column 7 -->
 								<label text="labels.flt.subs" bright="(:eq${i} ine 0) ? 1.0 : 0.75"/>
 								<knob id="fbs${i}" size="20" scolor="(:eq${i} ine 0) ? 'green' : 'green_inactive'" balance="0 db"/>
@@ -447,13 +448,13 @@
 								<label text="labels.flt.treble" bright="(:eq${i} ine 0) ? 1.0 : 0.75"/>
 								<knob id="fbt${i}" size="20" scolor="(:eq${i} ine 0) ? 'green' : 'green_inactive'" balance="0 db"/>
 								<value id="fbt${i}" width="62" sline="true" bright="(:eq${i} ine 0) ? 1.0 : 0.75"/>
+							</ui:with>
 
-								<!-- Column 12 -->
-								<ui:with bg.bright="(:eq${i} ine 0 and :hc${i} ine 0) ? 1.0 : :const_bg_darken">
+							<!-- Column 12 -->
+							<ui:with bg.bright="(:hc${i} ine 0) ? 1.0 : :const_bg_darken">
 								<label text="labels.flt.high_cut" bright="(:eq${i} ine 0 and :hc${i} ine 0) ? 1.0 : 0.75"/>
 								<knob id="fhc${i}" size="20" scolor="(:eq${i} ine 0 and :hc${i} ine 0) ? 'violet' : 'violet_inactive'"/>
 								<value id="fhc${i}" width="62" sline="true" bright="(:eq${i} ine 0 and :hc${i} ine 0) ? 1.0 : 0.75"/>
-							</ui:with>
 							</ui:with>
 
 							<!-- Column 13 -->
@@ -461,13 +462,13 @@
 
 							<!-- Column 14 -->
 							<ui:with bg.bright="(:fbe${i} ine 0 and :fb ine 0) ? 1.0 : :const_bg_darken">
-							<label text="labels.feedback" bright="(:fbe${i} ine 0 and :fb ine 0) ? 1.0 : 0.75"/>
-							<cell rows="2" pad.h="6">
-								<button id="fbe${i}" text="labels.chan.on" ui:inject="Button_cyan_8" height="15" hfill="true"/>
-							</cell>
-							<knob id="fbg${i}" scolor="(:fbe${i} ine 0 and :fb ine 0) ? 'kscale' : 'kscale_inactive'"/>
-							<value id="fbg${i}" sline="true" bright="(:fbe${i} ine 0 and :fb ine 0) ? 1.0 : 0.75"/>
-						</ui:with>
+								<label text="labels.feedback" bright="(:fbe${i} ine 0 and :fb ine 0) ? 1.0 : 0.75"/>
+								<cell rows="2" pad.h="6">
+									<button id="fbe${i}" text="labels.chan.on" ui:inject="Button_cyan_8" height="15" hfill="true"/>
+								</cell>
+								<knob id="fbg${i}" scolor="(:fbe${i} ine 0 and :fb ine 0) ? 'kscale' : 'kscale_inactive'"/>
+								<value id="fbg${i}" sline="true" bright="(:fbe${i} ine 0 and :fb ine 0) ? 1.0 : 0.75"/>
+							</ui:with>
 
 							<!-- Column 15 -->
 							<cell rows="5"><vsep pad.h="2" hreduce="true" bg.color="bg"/></cell>
