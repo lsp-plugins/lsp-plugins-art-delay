@@ -1,6 +1,6 @@
 /*
- * Copyright (C) 2024 Linux Studio Plugins Project <https://lsp-plug.in/>
- *           (C) 2024 Vladimir Sadovnikov <sadko4u@gmail.com>
+ * Copyright (C) 2025 Linux Studio Plugins Project <https://lsp-plug.in/>
+ *           (C) 2025 Vladimir Sadovnikov <sadko4u@gmail.com>
  *
  * This file is part of lsp-plugins-art-delay
  * Created on: 3 авг. 2021 г.
@@ -815,38 +815,35 @@ namespace lsp
             else if (da->completed())
             {
                 // Update delay
-                if (ad->bOn)
+                bool gc = false;
+
+                for (size_t i=0; i < channels; ++i)
                 {
-                    bool gc = false;
+                    // There is data to commit?
+                    if (ad->pPDelay[i] == NULL)
+                        continue;
 
-                    for (size_t i=0; i < channels; ++i)
-                    {
-                        // There is data to commit?
-                        if (ad->pPDelay[i] == NULL)
-                            continue;
+                    // Copy delay data if it is present
+                    if (ad->pCDelay[i] != NULL)
+                        ad->pPDelay[i]->copy(ad->pCDelay[i]);
 
-                        // Copy delay data if it is present
-                        if (ad->pCDelay[i] != NULL)
-                            ad->pPDelay[i]->copy(ad->pCDelay[i]);
+                    // Swap pointers
+                    ad->pGDelay[i] = ad->pCDelay[i];
+                    ad->pCDelay[i] = ad->pPDelay[i];
+                    ad->pPDelay[i] = NULL;
 
-                        // Swap pointers
-                        ad->pGDelay[i] = ad->pCDelay[i];
-                        ad->pCDelay[i] = ad->pPDelay[i];
-                        ad->pPDelay[i] = NULL;
+                    // Update garbage flag
+                    gc = gc || (ad->pGDelay[i] != NULL);
+                }
 
-                        // Update garbage flag
-                        gc = gc || (ad->pGDelay[i] != NULL);
-                    }
+                // Reset task state
+                da->reset();
 
-                    // Reset task state
-                    da->reset();
-
-                    // Need to clean garbage?
-                    if (gc)
-                    {
-                        da->set_size(nMaxDelay);
-                        pExecutor->submit(da);
-                    }
+                // Need to clean garbage?
+                if (gc)
+                {
+                    da->set_size(nMaxDelay);
+                    pExecutor->submit(da);
                 }
             }
         }
@@ -1026,8 +1023,9 @@ namespace lsp
                 ad->sFeedOutRange.process(samples);
             }
 
-            float used = atomic_load(&nMemUsed);
-            pOutDMax->set_value(dspu::samples_to_seconds(fSampleRate, nMaxDelay));
+            const float used = atomic_load(&nMemUsed);
+            const float d_max = dspu::samples_to_seconds(fSampleRate, nMaxDelay);
+            pOutDMax->set_value(d_max);
             pOutMemUse->set_value((used / (1024.0f * 1024.0f)) * sizeof(float)); // Translate floats into megabytes
         }
 
