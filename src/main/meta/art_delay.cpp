@@ -144,16 +144,16 @@ namespace lsp
 
         #define ART_DELAY_COMMON(pan)  \
             BYPASS, \
-            COMBO("lsel", "Delay line selector", 0, art_delay_lines), \
-            COMBO("dmax", "Maximum possible delay selector", 3, art_delay_maxlen), \
+            COMBO("lsel", "Delay line selector", "Delay selector", 0, art_delay_lines), \
+            COMBO("dmax", "Maximum possible delay selector", "Max selector", 3, art_delay_maxlen), \
             pan("_in", "Input"), \
             DRY_GAIN(GAIN_AMP_0_DB), \
             WET_GAIN(GAIN_AMP_0_DB), \
             DRYWET(100.0f), \
-            SWITCH("dry_on", "Dry enable", 1.0f), \
-            SWITCH("wet_on", "Wet enable", 1.0f), \
-            SWITCH("mono", "Mono output", 0.0f), \
-            SWITCH("fb", "Feedback", 1.0f), \
+            SWITCH("dry_on", "Dry enable", "Dry on", 1.0f), \
+            SWITCH("wet_on", "Wet enable", "Wet on", 1.0f), \
+            SWITCH("mono", "Mono output", "Mono", 0.0f), \
+            SWITCH("fb", "Feedback", "Feedback", 1.0f), \
             AMP_GAIN1("fbg", "Feedback gain", GAIN_AMP_0_DB), \
             OUT_GAIN, \
             METER("dmaxv", "Actual delay maximum value", U_SEC, art_delay_metadata::DSEL), \
@@ -161,27 +161,27 @@ namespace lsp
 
         #define ART_DELAY_TEMPO(id) \
             CONTROL("tempo" #id, "Tempo " #id, U_BPM, art_delay_metadata::TEMPO), \
-            COMBO("ratio" #id, "Tempo " #id " ratio", 0, art_delay_tempo_ratio), \
-            SWITCH("sync" #id, "Tempo" #id " sync", 0.0f), \
+            COMBO("ratio" #id, "Tempo " #id " ratio", "Ratio " #id, 0, art_delay_tempo_ratio), \
+            SWITCH("sync" #id, "Tempo" #id " sync", "Sync " #id, 0.0f), \
             METER("atempo" #id, "Delay " #id " actual tempo", U_BPM, art_delay_metadata::ATEMPO)
 
         #define ART_DELAY_PROCESSOR(id, pan) \
-            SWITCH("on" #id, "Delay " #id " on", 0.0f), \
-            SWITCH("s" #id, "Delay " #id " solo", 0.0f), \
-            SWITCH("m" #id, "Delay " #id " mute", 0.0f), \
-            COMBO("dref" #id, "Delay " #id " reference", 0, art_delay_references), \
+            SWITCH("on" #id, "Delay " #id " on", "Delay on " #id, 0.0f), \
+            SWITCH("s" #id, "Delay " #id " solo", "Solo " #id, 0.0f), \
+            SWITCH("m" #id, "Delay " #id " mute", "Mute " #id, 0.0f), \
+            COMBO("dref" #id, "Delay " #id " reference", "Reference " #id, 0, art_delay_references), \
             CONTROL("drefm" #id, "Delay " #id " reference multiplier", U_NONE, art_delay_metadata::DELAY_MULT), \
-            COMBO("tref" #id, "Delay " #id " tempo reference", 0, art_delay_tempo), \
+            COMBO("tref" #id, "Delay " #id " tempo reference", "Tempo ref " #id, 0, art_delay_tempo), \
             CONTROL("treff" #id, "Delay " #id " bar fraction", U_BAR, art_delay_metadata::DFRACTION), \
             INT_CONTROL("trefd" #id, "Delay " #id " bar denominator", U_BEAT, art_delay_metadata::DENOMINATOR), \
             CONTROL("trefm" #id, "Delay " #id " bar multiplier", U_NONE, art_delay_metadata::BAR_MULT), \
             CONTROL("frac" #id, "Delay " #id " fraction", U_BAR, art_delay_metadata::FRACTION), \
             INT_CONTROL("den" #id, "Delay " #id " denominator", U_BEAT, art_delay_metadata::DENOMINATOR), \
             CONTROL("dadd" #id, "Delay " #id " time addition", U_SEC, art_delay_metadata::TIME), \
-            SWITCH("eq" #id, "Equalizer " #id " on", 0.0f), \
-            SWITCH("lc" #id, "Delay " #id " low-cut filter", 0.0f), \
+            SWITCH("eq" #id, "Equalizer " #id " on", "Eqon " #id, 0.0f), \
+            SWITCH("lc" #id, "Delay " #id " low-cut filter", "LCF on " #id, 0.0f), \
             LOG_CONTROL("flc" #id, "Delay " #id " low-cut frequency", "LCF freq" #id, U_HZ, art_delay_metadata::LOW_CUT), \
-            SWITCH("hc" #id, "Delay " #id " high-cut filter", 0.0f), \
+            SWITCH("hc" #id, "Delay " #id " high-cut filter", "HCF on " #id, 0.0f), \
             LOG_CONTROL("fhc" #id, "Delay " #id " high-cut frequency", "HCF freq" #id, U_HZ, art_delay_metadata::HIGH_CUT), \
             LOG_CONTROL("fbs" #id, "Delay " #id " sub-bass", "Sub lvl" #id, U_GAIN_AMP, art_delay_metadata::BAND_GAIN), \
             LOG_CONTROL("fbb" #id, "Delay " #id " bass", "Bass lvl" #id, U_GAIN_AMP, art_delay_metadata::BAND_GAIN), \
@@ -191,9 +191,9 @@ namespace lsp
             pan(#id, "Delay " #id), \
             AMP_GAIN10("dg" #id, "Delay " #id " gain", GAIN_AMP_0_DB), \
             HUE_CTL("hue" #id, "Delay " #id " hue", float(id) / art_delay_metadata::MAX_PROCESSORS ), \
-            SWITCH("fbe" #id, "Delay " #id " feedback enable", 0.0f), \
+            SWITCH("fbe" #id, "Delay " #id " feedback enable", "Feed on " #id, 0.0f), \
             AMP_GAIN1("fbg" #id, "Delay " #id " feedback gain", GAIN_AMP_M_INF_DB), \
-            COMBO("fbtr" #id, "Delay " #id " feedback tempo reference", 0, art_delay_tempo), \
+            COMBO("fbtr" #id, "Delay " #id " feedback tempo reference", "Feed ref " #id, 0, art_delay_tempo), \
             CONTROL("fbbf" #id, "Delay " #id " feedback bar fraction", U_BAR, art_delay_metadata::DFRACTION), \
             INT_CONTROL("fbbd" #id, "Delay " #id " feedback bar denominator", U_BEAT, art_delay_metadata::DENOMINATOR), \
             CONTROL("fbbm" #id, "Delay " #id " feedback bar multiplier", U_NONE, art_delay_metadata::BAR_MULT), \
