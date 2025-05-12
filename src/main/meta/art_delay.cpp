@@ -173,10 +173,10 @@ namespace lsp
             CONTROL("drefm" #id, "Delay " #id " reference multiplier", U_NONE, art_delay_metadata::DELAY_MULT), \
             COMBO("tref" #id, "Delay " #id " tempo reference", "Tempo ref " #id, 0, art_delay_tempo), \
             CONTROL("treff" #id, "Delay " #id " bar fraction", U_BAR, art_delay_metadata::DFRACTION), \
-            INT_CONTROL("trefd" #id, "Delay " #id " bar denominator", U_BEAT, art_delay_metadata::DENOMINATOR), \
+            INT_CONTROL("trefd" #id, "Delay " #id " bar denominator", "Bar denom " #id, U_BEAT, art_delay_metadata::DENOMINATOR), \
             CONTROL("trefm" #id, "Delay " #id " bar multiplier", U_NONE, art_delay_metadata::BAR_MULT), \
             CONTROL("frac" #id, "Delay " #id " fraction", U_BAR, art_delay_metadata::FRACTION), \
-            INT_CONTROL("den" #id, "Delay " #id " denominator", U_BEAT, art_delay_metadata::DENOMINATOR), \
+            INT_CONTROL("den" #id, "Delay " #id " denominator", "Denom " #id, U_BEAT, art_delay_metadata::DENOMINATOR), \
             CONTROL("dadd" #id, "Delay " #id " time addition", U_SEC, art_delay_metadata::TIME), \
             SWITCH("eq" #id, "Equalizer " #id " on", "Eqon " #id, 0.0f), \
             SWITCH("lc" #id, "Delay " #id " low-cut filter", "LCF on " #id, 0.0f), \
@@ -195,10 +195,10 @@ namespace lsp
             AMP_GAIN1("fbg" #id, "Delay " #id " feedback gain", GAIN_AMP_M_INF_DB), \
             COMBO("fbtr" #id, "Delay " #id " feedback tempo reference", "Feed ref " #id, 0, art_delay_tempo), \
             CONTROL("fbbf" #id, "Delay " #id " feedback bar fraction", U_BAR, art_delay_metadata::DFRACTION), \
-            INT_CONTROL("fbbd" #id, "Delay " #id " feedback bar denominator", U_BEAT, art_delay_metadata::DENOMINATOR), \
+            INT_CONTROL("fbbd" #id, "Delay " #id " feedback bar denominator", "Feed bar den " #id, U_BEAT, art_delay_metadata::DENOMINATOR), \
             CONTROL("fbbm" #id, "Delay " #id " feedback bar multiplier", U_NONE, art_delay_metadata::BAR_MULT), \
             CONTROL("fbf" #id, "Delay " #id " feedback fraction", U_BAR, art_delay_metadata::FRACTION), \
-            INT_CONTROL("fbd" #id, "Delay " #id " feedback denominator", U_BEAT, art_delay_metadata::DENOMINATOR), \
+            INT_CONTROL("fbd" #id, "Delay " #id " feedback denominator", "Feed denom " #id, U_BEAT, art_delay_metadata::DENOMINATOR), \
             CONTROL("fbadd" #id, "Delay " #id " feedback time addition", U_SEC, art_delay_metadata::TIME), \
             METER("adt" #id, "Delay " #id " actual time", U_SEC, art_delay_metadata::DSEL), \
             METER("afbt" #id, "Delay " #id " actual feedback time", U_SEC, art_delay_metadata::DSEL), \
