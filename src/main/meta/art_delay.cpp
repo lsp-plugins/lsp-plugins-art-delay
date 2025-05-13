@@ -135,18 +135,18 @@ namespace lsp
             { NULL, NULL }
         };
 
-        #define ART_PAN_MONO(id, label) \
-            PAN_CTL("p" id, label " panorama", 0.0f)
+        #define ART_PAN_MONO(id, label, alias) \
+            PAN_CTL("p" id, label " panorama", "Pan" alias, 0.0f)
 
-        #define ART_PAN_STEREO(id, label) \
-            PAN_CTL("pl" id, label " left channel panorama", -100.0f), \
-            PAN_CTL("pr" id, label " right channel panorama", 100.0f)
+        #define ART_PAN_STEREO(id, label, alias) \
+            PAN_CTL("pl" id, label " left channel panorama", "Pan L" alias, -100.0f), \
+            PAN_CTL("pr" id, label " right channel panorama", "Pan R" alias, 100.0f)
 
         #define ART_DELAY_COMMON(pan)  \
             BYPASS, \
             COMBO("lsel", "Delay line selector", "Delay selector", 0, art_delay_lines), \
             COMBO("dmax", "Maximum possible delay selector", "Max selector", 3, art_delay_maxlen), \
-            pan("_in", "Input"), \
+            pan("_in", "Input", " In"), \
             DRY_GAIN(GAIN_AMP_0_DB), \
             WET_GAIN(GAIN_AMP_0_DB), \
             DRYWET(100.0f), \
@@ -154,7 +154,7 @@ namespace lsp
             SWITCH("wet_on", "Wet enable", "Wet on", 1.0f), \
             SWITCH("mono", "Mono output", "Mono", 0.0f), \
             SWITCH("fb", "Feedback", "Feedback", 1.0f), \
-            AMP_GAIN1("fbg", "Feedback gain", GAIN_AMP_0_DB), \
+            AMP_GAIN1("fbg", "Feedback gain", "Feed", GAIN_AMP_0_DB), \
             OUT_GAIN, \
             METER("dmaxv", "Actual delay maximum value", U_SEC, art_delay_metadata::DSEL), \
             METER("memuse", "Overall memory usage", U_BYTES, art_delay_metadata::MEMORY)
@@ -180,19 +180,19 @@ namespace lsp
             CONTROL("dadd" #id, "Delay " #id " time addition", "Add " #id, U_SEC, art_delay_metadata::TIME), \
             SWITCH("eq" #id, "Equalizer " #id " on", "Eqon " #id, 0.0f), \
             SWITCH("lc" #id, "Delay " #id " low-cut filter", "LCF on " #id, 0.0f), \
-            LOG_CONTROL("flc" #id, "Delay " #id " low-cut frequency", "LCF freq" #id, U_HZ, art_delay_metadata::LOW_CUT), \
+            LOG_CONTROL("flc" #id, "Delay " #id " low-cut frequency", "LCF freq " #id, U_HZ, art_delay_metadata::LOW_CUT), \
             SWITCH("hc" #id, "Delay " #id " high-cut filter", "HCF on " #id, 0.0f), \
-            LOG_CONTROL("fhc" #id, "Delay " #id " high-cut frequency", "HCF freq" #id, U_HZ, art_delay_metadata::HIGH_CUT), \
-            LOG_CONTROL("fbs" #id, "Delay " #id " sub-bass", "Sub lvl" #id, U_GAIN_AMP, art_delay_metadata::BAND_GAIN), \
-            LOG_CONTROL("fbb" #id, "Delay " #id " bass", "Bass lvl" #id, U_GAIN_AMP, art_delay_metadata::BAND_GAIN), \
-            LOG_CONTROL("fbm" #id, "Delay " #id " middle", "Mid lvl" #id, U_GAIN_AMP, art_delay_metadata::BAND_GAIN), \
-            LOG_CONTROL("fbp" #id, "Delay " #id " presence", "Presence lvl" #id, U_GAIN_AMP, art_delay_metadata::BAND_GAIN), \
-            LOG_CONTROL("fbt" #id, "Delay " #id " treble", "Treble lvl" #id, U_GAIN_AMP, art_delay_metadata::BAND_GAIN), \
-            pan(#id, "Delay " #id), \
-            AMP_GAIN10("dg" #id, "Delay " #id " gain", GAIN_AMP_0_DB), \
+            LOG_CONTROL("fhc" #id, "Delay " #id " high-cut frequency", "HCF freq " #id, U_HZ, art_delay_metadata::HIGH_CUT), \
+            LOG_CONTROL("fbs" #id, "Delay " #id " sub-bass", "Sub lvl " #id, U_GAIN_AMP, art_delay_metadata::BAND_GAIN), \
+            LOG_CONTROL("fbb" #id, "Delay " #id " bass", "Bass lvl " #id, U_GAIN_AMP, art_delay_metadata::BAND_GAIN), \
+            LOG_CONTROL("fbm" #id, "Delay " #id " middle", "Mid lvl " #id, U_GAIN_AMP, art_delay_metadata::BAND_GAIN), \
+            LOG_CONTROL("fbp" #id, "Delay " #id " presence", "Presence lvl " #id, U_GAIN_AMP, art_delay_metadata::BAND_GAIN), \
+            LOG_CONTROL("fbt" #id, "Delay " #id " treble", "Treble lvl " #id, U_GAIN_AMP, art_delay_metadata::BAND_GAIN), \
+            pan(#id, "Delay " #id, " " #id), \
+            AMP_GAIN10("dg" #id, "Delay " #id " gain", "Gain " #id, GAIN_AMP_0_DB), \
             HUE_CTL("hue" #id, "Delay " #id " hue", float(id) / art_delay_metadata::MAX_PROCESSORS ), \
             SWITCH("fbe" #id, "Delay " #id " feedback enable", "Feed on " #id, 0.0f), \
-            AMP_GAIN1("fbg" #id, "Delay " #id " feedback gain", GAIN_AMP_M_INF_DB), \
+            AMP_GAIN1("fbg" #id, "Delay " #id " feedback gain", "Feed " #id, GAIN_AMP_M_INF_DB), \
             COMBO("fbtr" #id, "Delay " #id " feedback tempo reference", "Feed ref " #id, 0, art_delay_tempo), \
             CONTROL("fbbf" #id, "Delay " #id " feedback bar fraction", "Feed bar frac" #id, U_BAR, art_delay_metadata::DFRACTION), \
             INT_CONTROL("fbbd" #id, "Delay " #id " feedback bar denominator", "Feed bar den " #id, U_BEAT, art_delay_metadata::DENOMINATOR), \
