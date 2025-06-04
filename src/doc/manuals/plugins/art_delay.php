@@ -15,8 +15,8 @@
 	<li>Panning of each individual line.</li>
 </ul>
 <p>Almost all parameters can be smootly automated.</p>
-<p>The delay alows to set up to 256 seconds delay for each delay line. This may yield to huge memory
-consumption. To get some memory economy, the memory is consumed in <b>on-demand</b> mode: the delay line
+<p>The delay alows to set up to 256 seconds delay for each delay line. This may yield huge memory
+consumption. To economize memory consumption, the memory is consumed in <b>on-demand</b> mode: the delay line
 allocates memory only if it is turned on in the delay effect.</p>
 <p>The following restrictions are defined for parameters:</p>
 <ul>
