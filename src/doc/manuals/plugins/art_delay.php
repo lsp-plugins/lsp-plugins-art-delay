@@ -51,7 +51,7 @@ allocates memory only if it is turned on in the delay effect.</p>
 
 <b>Global Delay Line Controls</b> section:
 <ul>
-	<li><b>On</b> - enables the corresponding delay. When turned on, the desired memory area is allocated for the delay so it could
+	<li><b>On</b> - enables the corresponding delay. When turned on, the desired memory area is allocated for the delay so it can
 		operate in real-time mode. When turned off, the allocated memory gets freed.</li>
 	<li><b>Solo</b> - turns the corresponding delay line into soloing mode. All other non-soloing delay lines become muted.</li>
 	<li><b>Mute</b> - mutes the corresponding delay line.</li>
@@ -96,7 +96,7 @@ allocates memory only if it is turned on in the delay effect.</p>
 	</ul>
 	<li><b>Delay Line Processing</b> - the main delay controls.</li>
 	<ul>
-		<li><b>On</b> - enables the delay. When turned on, the desired memory area is allocated for the delay so it could
+		<li><b>On</b> - enables the delay. When turned on, the desired memory area is allocated for the delay so it can
 		operate in real-time mode. When turned off, the allocated memory gets freed.</li>
 		<li><b>Solo</b> - turns the delay line into soloing mode. All other non-soloing delay lines become muted.</li>
 		<li><b>Mute</b> - mutes the delay line.</li>
