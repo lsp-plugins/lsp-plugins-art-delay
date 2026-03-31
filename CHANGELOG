@@ -2,6 +2,9 @@
 * RECENT CHANGES
 *******************************************************************************
 
+=== 1.0.32 ===
+* Updated build scripts and dependencies.
+
 === 1.0.31 ===
 * Fixed bug which could yield to crackling sound when using feedback.
 * Updated build scripts and dependencies.
