@@ -163,7 +163,7 @@ namespace lsp
         #define ART_DELAY_TEMPO(id, sid) \
             CONTROL("tempo" #id, "Tempo " #sid, "Tempo " #sid, U_BPM, art_delay_metadata::TEMPO), \
             COMBO("ratio" #id, "Tempo " #sid " ratio", "Ratio " #sid, 0, art_delay_tempo_ratio), \
-            SWITCH("sync" #id, "Tempo" #sid " sync", "Sync " #sid, 0.0f), \
+            SWITCH("sync" #id, "Tempo " #sid " sync", "Sync " #sid, 0.0f), \
             METER("atempo" #id, "Delay " #sid " actual tempo", U_BPM, art_delay_metadata::ATEMPO)
 
         #define ART_DELAY_PROCESSOR(id, sid, pan) \
