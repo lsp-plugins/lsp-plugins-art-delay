@@ -26,7 +26,7 @@
 
 #define LSP_PLUGINS_ART_DELAY_VERSION_MAJOR       1
 #define LSP_PLUGINS_ART_DELAY_VERSION_MINOR       0
-#define LSP_PLUGINS_ART_DELAY_VERSION_MICRO       32
+#define LSP_PLUGINS_ART_DELAY_VERSION_MICRO       33
 
 #define LSP_PLUGINS_ART_DELAY_VERSION  \
     LSP_MODULE_VERSION( \
@@ -41,7 +41,6 @@ namespace lsp
     {
         static const port_item_t art_delay_lines[] =
         {
-            { "0",            "art_delay.line_0"   },
             { "1",            "art_delay.line_1"   },
             { "2",            "art_delay.line_2"   },
             { "3",            "art_delay.line_3"   },
@@ -57,6 +56,7 @@ namespace lsp
             { "13",           "art_delay.line_13"  },
             { "14",           "art_delay.line_14"  },
             { "15",           "art_delay.line_15"  },
+            { "16",           "art_delay.line_16"  },
             { NULL, NULL }
         };
 
@@ -87,7 +87,6 @@ namespace lsp
         {
             { "None",           "art_delay.none"    },
 
-            { "0",              "art_delay.line_0"  },
             { "1",              "art_delay.line_1"  },
             { "2",              "art_delay.line_2"  },
             { "3",              "art_delay.line_3"  },
@@ -103,6 +102,7 @@ namespace lsp
             { "13",             "art_delay.line_13" },
             { "14",             "art_delay.line_14" },
             { "15",             "art_delay.line_15" },
+            { "16",             "art_delay.line_16" },
 
             { NULL, NULL }
         };
@@ -111,7 +111,6 @@ namespace lsp
         {
             { "None",           "art_delay.none"    },
 
-            { "0",              "art_delay.tempo_0" },
             { "1",              "art_delay.tempo_1" },
             { "2",              "art_delay.tempo_2" },
             { "3",              "art_delay.tempo_3" },
@@ -119,6 +118,7 @@ namespace lsp
             { "5",              "art_delay.tempo_5" },
             { "6",              "art_delay.tempo_6" },
             { "7",              "art_delay.tempo_7" },
+            { "8",              "art_delay.tempo_8" },
 
             { NULL, NULL }
         };
@@ -160,83 +160,83 @@ namespace lsp
             METER("dmaxv", "Actual delay maximum value", U_SEC, art_delay_metadata::DSEL), \
             METER("memuse", "Overall memory usage", U_BYTES, art_delay_metadata::MEMORY)
 
-        #define ART_DELAY_TEMPO(id) \
-            CONTROL("tempo" #id, "Tempo " #id, "Tempo " #id, U_BPM, art_delay_metadata::TEMPO), \
-            COMBO("ratio" #id, "Tempo " #id " ratio", "Ratio " #id, 0, art_delay_tempo_ratio), \
-            SWITCH("sync" #id, "Tempo" #id " sync", "Sync " #id, 0.0f), \
-            METER("atempo" #id, "Delay " #id " actual tempo", U_BPM, art_delay_metadata::ATEMPO)
+        #define ART_DELAY_TEMPO(id, sid) \
+            CONTROL("tempo" #id, "Tempo " #sid, "Tempo " #sid, U_BPM, art_delay_metadata::TEMPO), \
+            COMBO("ratio" #id, "Tempo " #sid " ratio", "Ratio " #sid, 0, art_delay_tempo_ratio), \
+            SWITCH("sync" #id, "Tempo " #sid " sync", "Sync " #sid, 0.0f), \
+            METER("atempo" #id, "Delay " #sid " actual tempo", U_BPM, art_delay_metadata::ATEMPO)
 
-        #define ART_DELAY_PROCESSOR(id, pan) \
-            SWITCH("on" #id, "Delay " #id " on", "Delay on " #id, 0.0f), \
-            SWITCH("s" #id, "Delay " #id " solo", "Solo " #id, 0.0f), \
-            SWITCH("m" #id, "Delay " #id " mute", "Mute " #id, 0.0f), \
-            COMBO("dref" #id, "Delay " #id " reference", "Reference " #id, 0, art_delay_references), \
-            CONTROL("drefm" #id, "Delay " #id " reference multiplier", "Ref mul " #id, U_NONE, art_delay_metadata::DELAY_MULT), \
-            COMBO("tref" #id, "Delay " #id " tempo reference", "Tempo ref " #id, 0, art_delay_tempo), \
-            CONTROL("treff" #id, "Delay " #id " bar fraction", "Bar frac " #id, U_BAR, art_delay_metadata::DFRACTION), \
-            INT_CONTROL("trefd" #id, "Delay " #id " bar denominator", "Bar denom " #id, U_BEAT, art_delay_metadata::DENOMINATOR), \
-            CONTROL("trefm" #id, "Delay " #id " bar multiplier", "Bar mul " #id, U_NONE, art_delay_metadata::BAR_MULT), \
-            CONTROL("frac" #id, "Delay " #id " fraction", "Frac " #id, U_BAR, art_delay_metadata::FRACTION), \
-            INT_CONTROL("den" #id, "Delay " #id " denominator", "Denom " #id, U_BEAT, art_delay_metadata::DENOMINATOR), \
-            CONTROL("dadd" #id, "Delay " #id " time addition", "Add " #id, U_SEC, art_delay_metadata::TIME), \
-            SWITCH("eq" #id, "Equalizer " #id " on", "Eqon " #id, 0.0f), \
-            SWITCH("lc" #id, "Delay " #id " low-cut filter", "LCF on " #id, 0.0f), \
-            LOG_CONTROL("flc" #id, "Delay " #id " low-cut frequency", "LCF freq " #id, U_HZ, art_delay_metadata::LOW_CUT), \
-            SWITCH("hc" #id, "Delay " #id " high-cut filter", "HCF on " #id, 0.0f), \
-            LOG_CONTROL("fhc" #id, "Delay " #id " high-cut frequency", "HCF freq " #id, U_HZ, art_delay_metadata::HIGH_CUT), \
-            LOG_CONTROL("fbs" #id, "Delay " #id " sub-bass", "Sub lvl " #id, U_GAIN_AMP, art_delay_metadata::BAND_GAIN), \
-            LOG_CONTROL("fbb" #id, "Delay " #id " bass", "Bass lvl " #id, U_GAIN_AMP, art_delay_metadata::BAND_GAIN), \
-            LOG_CONTROL("fbm" #id, "Delay " #id " middle", "Mid lvl " #id, U_GAIN_AMP, art_delay_metadata::BAND_GAIN), \
-            LOG_CONTROL("fbp" #id, "Delay " #id " presence", "Presence lvl " #id, U_GAIN_AMP, art_delay_metadata::BAND_GAIN), \
-            LOG_CONTROL("fbt" #id, "Delay " #id " treble", "Treble lvl " #id, U_GAIN_AMP, art_delay_metadata::BAND_GAIN), \
-            pan(#id, "Delay " #id, " " #id), \
-            AMP_GAIN10("dg" #id, "Delay " #id " gain", "Gain " #id, GAIN_AMP_0_DB), \
-            HUE_CTL("hue" #id, "Delay " #id " hue", float(id) / art_delay_metadata::MAX_PROCESSORS ), \
-            SWITCH("fbe" #id, "Delay " #id " feedback enable", "Feed on " #id, 0.0f), \
-            AMP_GAIN1("fbg" #id, "Delay " #id " feedback gain", "Feed " #id, GAIN_AMP_M_INF_DB), \
-            COMBO("fbtr" #id, "Delay " #id " feedback tempo reference", "Feed ref " #id, 0, art_delay_tempo), \
-            CONTROL("fbbf" #id, "Delay " #id " feedback bar fraction", "Feed bar frac" #id, U_BAR, art_delay_metadata::DFRACTION), \
-            INT_CONTROL("fbbd" #id, "Delay " #id " feedback bar denominator", "Feed bar den " #id, U_BEAT, art_delay_metadata::DENOMINATOR), \
-            CONTROL("fbbm" #id, "Delay " #id " feedback bar multiplier", "Feed bar mul " #id, U_NONE, art_delay_metadata::BAR_MULT), \
-            CONTROL("fbf" #id, "Delay " #id " feedback fraction", "Feed frac " #id, U_BAR, art_delay_metadata::FRACTION), \
-            INT_CONTROL("fbd" #id, "Delay " #id " feedback denominator", "Feed denom " #id, U_BEAT, art_delay_metadata::DENOMINATOR), \
-            CONTROL("fbadd" #id, "Delay " #id " feedback time addition", "Feed add " #id, U_SEC, art_delay_metadata::TIME), \
-            METER("adt" #id, "Delay " #id " actual time", U_SEC, art_delay_metadata::DSEL), \
-            METER("afbt" #id, "Delay " #id " actual feedback time", U_SEC, art_delay_metadata::DSEL), \
-            BLINK("door" #id, "Delay " #id " out of range"), \
-            BLINK("fbor" #id, "Delay " #id " feedback out of range"), \
-            BLINK("loop" #id, "Delay " #id " dependency loop"), \
-            METER("tval" #id, "Delay " #id " selected tempo", U_BPM, art_delay_metadata::ATEMPO), \
-            METER("fbtv" #id, "Delay " #id " selected feedback tempo", U_BPM, art_delay_metadata::ATEMPO), \
-            METER("dval" #id, "Delay " #id " reference selected delay", U_SEC, art_delay_metadata::DSEL)
+        #define ART_DELAY_PROCESSOR(id, sid, pan) \
+            SWITCH("on" #id, "Delay " #sid " on", "Delay on " #sid, 0.0f), \
+            SWITCH("s" #id, "Delay " #sid " solo", "Solo " #sid, 0.0f), \
+            SWITCH("m" #id, "Delay " #sid " mute", "Mute " #sid, 0.0f), \
+            COMBO("dref" #id, "Delay " #sid " reference", "Reference " #sid, 0, art_delay_references), \
+            CONTROL("drefm" #id, "Delay " #sid " reference multiplier", "Ref mul " #sid, U_NONE, art_delay_metadata::DELAY_MULT), \
+            COMBO("tref" #id, "Delay " #sid " tempo reference", "Tempo ref " #sid, 0, art_delay_tempo), \
+            CONTROL("treff" #id, "Delay " #sid " bar fraction", "Bar frac " #sid, U_BAR, art_delay_metadata::DFRACTION), \
+            INT_CONTROL("trefd" #id, "Delay " #sid " bar denominator", "Bar denom " #sid, U_BEAT, art_delay_metadata::DENOMINATOR), \
+            CONTROL("trefm" #id, "Delay " #sid " bar multiplier", "Bar mul " #sid, U_NONE, art_delay_metadata::BAR_MULT), \
+            CONTROL("frac" #id, "Delay " #sid " fraction", "Frac " #sid, U_BAR, art_delay_metadata::FRACTION), \
+            INT_CONTROL("den" #id, "Delay " #sid " denominator", "Denom " #sid, U_BEAT, art_delay_metadata::DENOMINATOR), \
+            CONTROL("dadd" #id, "Delay " #sid " time addition", "Add " #sid, U_SEC, art_delay_metadata::TIME), \
+            SWITCH("eq" #id, "Equalizer " #sid " on", "Eqon " #sid, 0.0f), \
+            SWITCH("lc" #id, "Delay " #sid " low-cut filter", "LCF on " #sid, 0.0f), \
+            LOG_CONTROL("flc" #id, "Delay " #sid " low-cut frequency", "LCF freq " #sid, U_HZ, art_delay_metadata::LOW_CUT), \
+            SWITCH("hc" #id, "Delay " #sid " high-cut filter", "HCF on " #sid, 0.0f), \
+            LOG_CONTROL("fhc" #id, "Delay " #sid " high-cut frequency", "HCF freq " #sid, U_HZ, art_delay_metadata::HIGH_CUT), \
+            LOG_CONTROL("fbs" #id, "Delay " #sid " sub-bass", "Sub lvl " #sid, U_GAIN_AMP, art_delay_metadata::BAND_GAIN), \
+            LOG_CONTROL("fbb" #id, "Delay " #sid " bass", "Bass lvl " #sid, U_GAIN_AMP, art_delay_metadata::BAND_GAIN), \
+            LOG_CONTROL("fbm" #id, "Delay " #sid " middle", "Mid lvl " #sid, U_GAIN_AMP, art_delay_metadata::BAND_GAIN), \
+            LOG_CONTROL("fbp" #id, "Delay " #sid " presence", "Presence lvl " #sid, U_GAIN_AMP, art_delay_metadata::BAND_GAIN), \
+            LOG_CONTROL("fbt" #id, "Delay " #sid " treble", "Treble lvl " #sid, U_GAIN_AMP, art_delay_metadata::BAND_GAIN), \
+            pan(#id, "Delay " #sid, " " #sid), \
+            AMP_GAIN10("dg" #id, "Delay " #sid " gain", "Gain " #sid, GAIN_AMP_0_DB), \
+            HUE_CTL("hue" #id, "Delay " #sid " hue", float(id) / art_delay_metadata::MAX_PROCESSORS ), \
+            SWITCH("fbe" #id, "Delay " #sid " feedback enable", "Feed on " #sid, 0.0f), \
+            AMP_GAIN1("fbg" #id, "Delay " #sid " feedback gain", "Feed " #sid, GAIN_AMP_M_INF_DB), \
+            COMBO("fbtr" #id, "Delay " #sid " feedback tempo reference", "Feed ref " #sid, 0, art_delay_tempo), \
+            CONTROL("fbbf" #id, "Delay " #sid " feedback bar fraction", "Feed bar frac" #sid, U_BAR, art_delay_metadata::DFRACTION), \
+            INT_CONTROL("fbbd" #id, "Delay " #sid " feedback bar denominator", "Feed bar den " #sid, U_BEAT, art_delay_metadata::DENOMINATOR), \
+            CONTROL("fbbm" #id, "Delay " #sid " feedback bar multiplier", "Feed bar mul " #sid, U_NONE, art_delay_metadata::BAR_MULT), \
+            CONTROL("fbf" #id, "Delay " #sid " feedback fraction", "Feed frac " #sid, U_BAR, art_delay_metadata::FRACTION), \
+            INT_CONTROL("fbd" #id, "Delay " #sid " feedback denominator", "Feed denom " #sid, U_BEAT, art_delay_metadata::DENOMINATOR), \
+            CONTROL("fbadd" #id, "Delay " #sid " feedback time addition", "Feed add " #sid, U_SEC, art_delay_metadata::TIME), \
+            METER("adt" #id, "Delay " #sid " actual time", U_SEC, art_delay_metadata::DSEL), \
+            METER("afbt" #id, "Delay " #sid " actual feedback time", U_SEC, art_delay_metadata::DSEL), \
+            BLINK("door" #id, "Delay " #sid " out of range"), \
+            BLINK("fbor" #id, "Delay " #sid " feedback out of range"), \
+            BLINK("loop" #id, "Delay " #sid " dependency loop"), \
+            METER("tval" #id, "Delay " #sid " selected tempo", U_BPM, art_delay_metadata::ATEMPO), \
+            METER("fbtv" #id, "Delay " #sid " selected feedback tempo", U_BPM, art_delay_metadata::ATEMPO), \
+            METER("dval" #id, "Delay " #sid " reference selected delay", U_SEC, art_delay_metadata::DSEL)
 
         #define ART_DELAY_TEMPOS \
-            ART_DELAY_TEMPO(0), \
-            ART_DELAY_TEMPO(1), \
-            ART_DELAY_TEMPO(2), \
-            ART_DELAY_TEMPO(3), \
-            ART_DELAY_TEMPO(4), \
-            ART_DELAY_TEMPO(5), \
-            ART_DELAY_TEMPO(6), \
-            ART_DELAY_TEMPO(7)
+            ART_DELAY_TEMPO(0, 1), \
+            ART_DELAY_TEMPO(1, 2), \
+            ART_DELAY_TEMPO(2, 3), \
+            ART_DELAY_TEMPO(3, 4), \
+            ART_DELAY_TEMPO(4, 5), \
+            ART_DELAY_TEMPO(5, 6), \
+            ART_DELAY_TEMPO(6, 7), \
+            ART_DELAY_TEMPO(7, 8)
 
         #define ART_DELAY_PROCESSORS(pan) \
-            ART_DELAY_PROCESSOR(0, pan), \
-            ART_DELAY_PROCESSOR(1, pan), \
-            ART_DELAY_PROCESSOR(2, pan), \
-            ART_DELAY_PROCESSOR(3, pan), \
-            ART_DELAY_PROCESSOR(4, pan), \
-            ART_DELAY_PROCESSOR(5, pan), \
-            ART_DELAY_PROCESSOR(6, pan), \
-            ART_DELAY_PROCESSOR(7, pan), \
-            ART_DELAY_PROCESSOR(8, pan), \
-            ART_DELAY_PROCESSOR(9, pan), \
-            ART_DELAY_PROCESSOR(10, pan), \
-            ART_DELAY_PROCESSOR(11, pan), \
-            ART_DELAY_PROCESSOR(12, pan), \
-            ART_DELAY_PROCESSOR(13, pan), \
-            ART_DELAY_PROCESSOR(14, pan), \
-            ART_DELAY_PROCESSOR(15, pan)
+            ART_DELAY_PROCESSOR( 0,  1, pan), \
+            ART_DELAY_PROCESSOR( 1,  2, pan), \
+            ART_DELAY_PROCESSOR( 2,  3, pan), \
+            ART_DELAY_PROCESSOR( 3,  4, pan), \
+            ART_DELAY_PROCESSOR( 4,  5, pan), \
+            ART_DELAY_PROCESSOR( 5,  6, pan), \
+            ART_DELAY_PROCESSOR( 6,  7, pan), \
+            ART_DELAY_PROCESSOR( 7,  8, pan), \
+            ART_DELAY_PROCESSOR( 8,  9, pan), \
+            ART_DELAY_PROCESSOR( 9, 10, pan), \
+            ART_DELAY_PROCESSOR(10, 11, pan), \
+            ART_DELAY_PROCESSOR(11, 12, pan), \
+            ART_DELAY_PROCESSOR(12, 13, pan), \
+            ART_DELAY_PROCESSOR(13, 14, pan), \
+            ART_DELAY_PROCESSOR(14, 15, pan), \
+            ART_DELAY_PROCESSOR(15, 16, pan)
 
         static const port_t art_delay_mono_ports[] =
         {
